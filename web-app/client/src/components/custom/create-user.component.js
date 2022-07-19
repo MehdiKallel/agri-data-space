@@ -4,7 +4,6 @@ import axios from "axios";
 export class CreateUser extends Component {
   constructor(props) {
     super(props);
-
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -84,7 +83,7 @@ export class CreateUser extends Component {
     console.log(user);
 
     axios
-      .post("http://192.168.0.108:8090/user/signup/" + this.state.role, user, {
+      .post("http://localhost:8090/user/signup/" + this.state.userType, user, {
         headers: headers,
       })
       .then((res) => console.log(res));
@@ -141,13 +140,13 @@ export class CreateUser extends Component {
               onChange={this.onChangeUsertype}
             >
               <option key="farmer" value="farmer">
-                Manufacturer
+                Farmer
               </option>
               <option key="auditor" value="auditor">
-                Distributor
+                Auditor
               </option>
               <option key="transporter" value="transporter">
-                Wholesaler
+                Transporter
               </option>
             </select>
           </div>

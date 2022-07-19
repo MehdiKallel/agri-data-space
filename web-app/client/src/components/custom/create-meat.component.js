@@ -27,38 +27,9 @@ export class CreateMeat extends Component {
       }
     })
 
-    // this.onChangeFuncs = this.fields.map(o => {
-    //   console.log("changingaaaa "+ o)
-    //   const f = (e => {
-    //     const nvm =new Map()
-    //     nvm.set(o, e.target.value)
-    //     this.setState(nvm);
-    //     console.log("changing "+ o + " to " + e.target.value)
-    //   })
-    //   return [o, f.bind(this)]
-    //   }
-    // )
 
-    // this.onChangeFuncs.forEach((v, k) => {
-    //   this.onChangeFuncs[k] = v.bind(this)
-    // })
+    this.state = this.fields.map((o) => [o, ""]);
 
-    this.state = this.fields.map(o => [o, ""])
-
-    // console.log(this.state2)
-
-
-    // this.state = {
-    //   MeatType: "",
-    //   ShellLife: "",
-    //   ProcDate: "",
-    //   FarmerMat: "",
-    //   CountryOfOrigin: "",
-    //   Footprint: "",
-    //   MeatMat: "",
-    // };
-    //
-    // console.log(this.state)
 
   }
 
@@ -130,7 +101,6 @@ export class CreateMeat extends Component {
         user_id: meat.user_id,
     });
 
-    // window.location = "/users";
   }
 
   render() {
