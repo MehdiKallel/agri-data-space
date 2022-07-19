@@ -3,15 +3,19 @@ const path = require('path');
 const FabricCAServices = require('fabric-ca-client');
 const { FileSystemWallet, Gateway, X509WalletMixin } = require('fabric-network');
 
-const farmerCcpPath = path.join('.', '/', 'connection-profile-farmerorg.json');
+const farmerCcpPath = path.join('/home/mehdi/agri-data-space/web-app/servers/fabric/connection-profile-farmerorg.json');
 const farmerCcpFile = fs.readFileSync(farmerCcpPath, 'utf8');
 const farmerCcp = JSON.parse(farmerCcpFile);
 
-const auditorCcpPath = path.join('.', '/', 'connection-profile-auditororg.json');
+const auditorCcpPath = path.join(
+    '/home/mehdi/agri-data-space/web-app/servers/fabric/connection-profile-auditororg.json',
+);
 const auditorCcpFile = fs.readFileSync(auditorCcpPath, 'utf8');
 const auditorCcp = JSON.parse(auditorCcpFile);
 
-const transporterCcpPath = path.join('.', '/', 'connection-profile-transporterorg.json');
+const transporterCcpPath = path.join(
+    '/home/mehdi/agri-data-space/web-app/servers/fabric/connection-profile-transporterorg.json',
+);
 const transporterCcpFile = fs.readFileSync(transporterCcpPath, 'utf8');
 const transporterCcp = JSON.parse(transporterCcpFile);
 

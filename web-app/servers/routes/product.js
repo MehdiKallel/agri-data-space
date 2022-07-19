@@ -7,13 +7,7 @@ productRouter.use('/', authMiddleware);
 productRouter.use('/order', authMiddleware);
 productRouter.use('/delivered', authMiddleware);
 
-
-productRouter.post('/', controller.createProduct);
-productRouter.put('/:productId/:role', controller.updateProduct);
-productRouter.get('/:productId/:role', controller.getProductbyId);
-productRouter.get('/:role', controller.getAllProducts);
-
-// productRouter.post('/order', controller.createOrder);
-// productRouter.post('/delivered', controller.isDelivered);
+productRouter.post('/', controller.registerMeat);
+productRouter.get('/:role', controller.getAllMeat);
 
 module.exports = productRouter;

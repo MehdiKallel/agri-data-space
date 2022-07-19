@@ -8,7 +8,7 @@ exports.signup = async (req, res) => {
     console.log(req.body);
     console.log(role);
 
-    if ((!id || !userType || !address || !name  || !email || !password )) {
+    if (!id || !userType || !address || !name || !email || !password) {
         console.log('1');
         return apiResponse.badRequest(res);
     }
@@ -16,11 +16,32 @@ exports.signup = async (req, res) => {
     let modelRes;
 
     if (role === 'farmer') {
-        modelRes = await authModel.signup(true, false, false, {  id, userType, address, name, email, password });
+        modelRes = await authModel.signup(true, false, false, {
+            id,
+            userType,
+            address,
+            name,
+            email,
+            password,
+        });
     } else if (role === 'auditor') {
-        modelRes = await authModel.signup(false, true, false, {  id, userType, address, name, email, password });
+        modelRes = await authModel.signup(false, true, false, {
+            id,
+            userType,
+            address,
+            name,
+            email,
+            password,
+        });
     } else if (role === 'transporter') {
-        modelRes = await authModel.signup(false, false, true, {  id, userType, address, name, email, password });
+        modelRes = await authModel.signup(false, false, true, {
+            id,
+            userType,
+            address,
+            name,
+            email,
+            password,
+        });
     } else {
         return apiResponse.badRequest(res);
     }
