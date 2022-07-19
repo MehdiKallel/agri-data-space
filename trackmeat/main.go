@@ -58,6 +58,10 @@ func (t *SimpleChaincode) registerMeat(stub shim.ChaincodeStubInterface, args []
 			return shim.Error("argument " + strconv.Itoa(i) + " must be a non-empty string")
 		}
 	}
+	msp, _ := cid.GetMSPID(stub)
+	if msp != "FarmerOrgMSP" {
+		return shim.Error("Only Farmers are allowed to register meat products")
+	}
 	meatType := args[0]
 	procDate := strings.ToLower(args[1])
 	shellLife, err := strconv.Atoi(args[2])
@@ -102,6 +106,12 @@ func (t *SimpleChaincode) transitMeat(stub shim.ChaincodeStubInterface, args []s
 			return shim.Error("argument " + strconv.Itoa(i) + " must be a non-empty string")
 		}
 	}
+
+	msp, _ := cid.GetMSPID(stub)
+	if msp != "TransporterOrgMSP" {
+		return shim.Error("Only transporters are allowed to create transit records")
+	}
+
 	depTime := args[0]
 	arTime := strings.ToLower(args[1])
 	typeOfStorage := strings.ToLower(args[2])
