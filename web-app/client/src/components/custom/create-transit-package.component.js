@@ -114,9 +114,13 @@ export class CreateTransitPackage  extends Component {
     console.log(TransitPackage);
 
     axios
-      .post("http://192.168.0.108:8090/user/transitPackage/" + this.state.role, TransitPackage, {
-        headers: headers,
-      })
+      .post(
+        "http://localhost/user/transitPackage/" + this.state.role,
+        TransitPackage,
+        {
+          headers: headers,
+        }
+      )
       .then((res) => console.log(res));
 
     this.setState({

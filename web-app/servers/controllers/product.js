@@ -11,7 +11,7 @@ exports.registerMeat = async (req, res) => {
     }
     console.log('2');
 
-    if (loggedUserType !== 'Farmer') {
+    if (loggedUserType !== 'farmer') {
         return apiResponse.badRequest(res);
     }
     console.log('3');

@@ -4,7 +4,6 @@ const authMiddleware = require('../middlewares/auth.js');
 const roleMiddleware = require('../middlewares/checkRole.js');
 
 productRouter.use('/', authMiddleware);
-productRouter.use('/order', authMiddleware);
 productRouter.use('/delivered', authMiddleware);
 
 productRouter.post('/', controller.registerMeat);

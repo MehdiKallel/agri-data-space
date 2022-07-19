@@ -11,6 +11,11 @@ export class Navbar extends Component {
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-item">
+              <Link to="/registerNewUser" className="nav-link">
+                Register New User
+              </Link>
+            </li>
+            <li className="navbar-item">
               <Link to="/createTransitPackage" className="nav-link">
                 Create Transit Package
               </Link>
@@ -20,41 +25,6 @@ export class Navbar extends Component {
                 Register Meat
               </Link>
             </li>
-
-
-            {/*<li className="navbar-item">*/}
-            {/*  <Link to="/createUser" className="nav-link">*/}
-            {/*    Create User*/}
-            {/*  </Link>*/}
-            {/*</li>*/}
-
-
-            {/*<li className="navbar-item">*/}
-            {/*  <Link to="/createProduct" className="nav-link">*/}
-            {/*    Create Product*/}
-            {/*  </Link>*/}
-            {/*</li>*/}
-            {/*<li className="navbar-item">*/}
-            {/*  <Link to="/users" className="nav-link">*/}
-            {/*    Users*/}
-            {/*  </Link>*/}
-            {/*</li>*/}
-            {/*<li className="navbar-item">*/}
-            {/*  <Link    to="/products" className="nav-link">*/}
-            {/*    Products*/}
-            {/*  </Link>*/}
-            {/*</li>*/}
-
-            {/* <li className="navbar-item">
-              <Link to="/createOrder" className="nav-link">
-                Create Order
-              </Link>
-            </li>
-            <li className="navbar-item">
-              <Link to="/orders" className="nav-link">
-                Orders
-              </Link>
-            </li> */}
             <li className="navbar-item">
               <Link to="/" className="nav-link">
                 Logout

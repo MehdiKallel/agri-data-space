@@ -5,10 +5,9 @@ import Navbar from "./components/default/navbar.component";
 import SignIn from "./components/default/signIn.component";
 import CreateTransitPackage from "./components/custom/create-transit-package.component";
 import CreateMeat from "./components/custom/create-meat.component";
-import CreateUser from "./components/default/create-user.component";
+import CreateUser from "./components/custom/create-user.component";
 import UsersList from "./components/default/users-list.component";
 import ProductsList from "./components/default/products-list.component";
-import OrdersList from "./components/default/orders-list.component";
 
 function App() {
   const role = sessionStorage.getItem("role");
@@ -24,7 +23,7 @@ function App() {
         <Route path="/createUser" component={CreateUser} />
         <Route path="/createMeat" component={CreateMeat} />
         <Route path="/users" component={UsersList} />
-        <Route path="/orders" component={OrdersList} />
+        <Route path="/registerNewUser" component={CreateUser} />
       </div>
     </Router>
   );

@@ -2,6 +2,7 @@ const authModel = require('../models/user.js');
 const apiResponse = require('../utils/apiResponse.js');
 
 exports.signup = async (req, res) => {
+    console.log('yessss');
     const { id, userType, address, name, email, password } = req.body;
     const { role } = req.params;
 

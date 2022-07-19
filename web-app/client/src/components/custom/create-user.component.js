@@ -40,17 +40,17 @@ export class CreateUser extends Component {
   }
 
   onChangeUsertype(e) {
-    if (e.target.value === "admin") {
+    if (e.target.value === "farmer") {
       this.setState({
-        role: "admin",
-      });
-    } else if (e.target.value === "farmer") {
-      this.setState({
-        role: "manufacturer",
+        role: "farmer",
       });
     } else if (e.target.value === "auditor") {
       this.setState({
         role: "auditor",
+      });
+    } else if (e.target.value === "transporter") {
+      this.setState({
+        role: "transporter",
       });
     }
     this.setState({

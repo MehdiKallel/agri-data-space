@@ -1,0 +1,8 @@
+PeerOrgs:
+  - Name: TransporterOrg
+    Domain: transporter.example.com
+    Specs:
+    Template:
+      Count: 2
+    Users:
+      Count: 1
