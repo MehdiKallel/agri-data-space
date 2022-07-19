@@ -1,8 +1,0 @@
-PeerOrgs:
-  - Name: FarmerOrg
-    Domain: farmer.example.com
-    Specs:
-    Template:
-      Count: 2
-    Users:
-      Count: 1

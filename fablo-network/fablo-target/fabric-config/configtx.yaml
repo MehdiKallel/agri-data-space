@@ -33,7 +33,7 @@ Organizations:
     - &Orderer
       Name: OrdererMSP
       ID: OrdererMSP
-      MSPDir: crypto-config/peerOrganizations/orderer.example.com/msp
+      MSPDir: crypto-config/peerOrganizations/root.com/msp
 
       Policies:
           Readers:
@@ -51,83 +51,54 @@ Organizations:
 
       AnchorPeers:
 
-    - &FarmerOrg
-      Name: FarmerOrgMSP
-      ID: FarmerOrgMSP
-      MSPDir: crypto-config/peerOrganizations/farmer.example.com/msp
+    - &Org1
+      Name: Org1MSP
+      ID: Org1MSP
+      MSPDir: crypto-config/peerOrganizations/org1.example.com/msp
 
       Policies:
           Readers:
               Type: Signature
-              Rule: "OR('FarmerOrgMSP.member')"
+              Rule: "OR('Org1MSP.member')"
           Writers:
               Type: Signature
-              Rule: "OR('FarmerOrgMSP.member')"
+              Rule: "OR('Org1MSP.member')"
           Admins:
               Type: Signature
-              Rule: "OR('FarmerOrgMSP.admin')"
+              Rule: "OR('Org1MSP.admin')"
           Endorsement:
               Type: Signature
-              Rule: "OR('FarmerOrgMSP.member')"
+              Rule: "OR('Org1MSP.member')"
 
       AnchorPeers:
-          - Host: peer0.farmer.example.com
+          - Host: peer0.org1.example.com
             Port: 7041
 
-          - Host: peer1.farmer.example.com
+          - Host: peer1.org1.example.com
             Port: 7042
 
-    - &AuditorOrg
-      Name: AuditorOrgMSP
-      ID: AuditorOrgMSP
-      MSPDir: crypto-config/peerOrganizations/auditor.example.com/msp
+    - &Org2
+      Name: Org2MSP
+      ID: Org2MSP
+      MSPDir: crypto-config/peerOrganizations/org2.example.com/msp
 
       Policies:
           Readers:
               Type: Signature
-              Rule: "OR('AuditorOrgMSP.member')"
+              Rule: "OR('Org2MSP.member')"
           Writers:
               Type: Signature
-              Rule: "OR('AuditorOrgMSP.member')"
+              Rule: "OR('Org2MSP.member')"
           Admins:
               Type: Signature
-              Rule: "OR('AuditorOrgMSP.admin')"
+              Rule: "OR('Org2MSP.admin')"
           Endorsement:
               Type: Signature
-              Rule: "OR('AuditorOrgMSP.member')"
+              Rule: "OR('Org2MSP.member')"
 
       AnchorPeers:
-          - Host: peer0.auditor.example.com
+          - Host: peer0.org2.example.com
             Port: 7061
-
-          - Host: peer1.auditor.example.com
-            Port: 7062
-
-    - &TransporterOrg
-      Name: TransporterOrgMSP
-      ID: TransporterOrgMSP
-      MSPDir: crypto-config/peerOrganizations/transporter.example.com/msp
-
-      Policies:
-          Readers:
-              Type: Signature
-              Rule: "OR('TransporterOrgMSP.member')"
-          Writers:
-              Type: Signature
-              Rule: "OR('TransporterOrgMSP.member')"
-          Admins:
-              Type: Signature
-              Rule: "OR('TransporterOrgMSP.admin')"
-          Endorsement:
-              Type: Signature
-              Rule: "OR('TransporterOrgMSP.member')"
-
-      AnchorPeers:
-          - Host: peer0.transporter.example.com
-            Port: 7081
-
-          - Host: peer1.transporter.example.com
-            Port: 7082
 
 ################################################################################
 #   SECTION: Application
@@ -159,7 +130,7 @@ Application: &ApplicationDefaults
 Orderer: &Group1Defaults
     OrdererType: solo
     Addresses:
-        - orderer0.group1.orderer.example.com:7030
+        - orderer0.group1.root.com:7030
     BatchTimeout: 2s
     BatchSize:
         MaxMessageCount: 10
@@ -206,12 +177,11 @@ Profiles:
             SampleConsortium:
                 Organizations:
                     - *Orderer
-                    - *FarmerOrg
-                    - *AuditorOrg
-                    - *TransporterOrg
+                    - *Org1
+                    - *Org2
 
-    # Profile used to create channeltx for trackmeat-channel #
-    TrackmeatChannel:
+    # Profile used to create channeltx for mychannel #
+    Mychannel:
         <<: *ChannelDefaults
         Orderer:
             <<: *Group1Defaults
@@ -223,12 +193,10 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                    - *FarmerOrg
-                    - *AuditorOrg
-                    - *TransporterOrg
+                    - *Org1
+                    - *Org2
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *FarmerOrg
-                - *AuditorOrg
-                - *TransporterOrg
+                - *Org1
+                - *Org2
