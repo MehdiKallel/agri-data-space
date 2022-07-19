@@ -45,17 +45,13 @@ export class CreateUser extends Component {
       this.setState({
         role: "admin",
       });
-    } else if (e.target.value === "manufacturer") {
+    } else if (e.target.value === "farmer") {
       this.setState({
         role: "manufacturer",
       });
-    } else if (e.target.value === "consumer") {
+    } else if (e.target.value === "auditor") {
       this.setState({
-        role: "consumer",
-      });
-    } else if (e.target.value === "wholesaler" || e.target.value === "retailer" || e.target.value === "consumer"){
-      this.setState({
-        role: "middlemen",
+        role: "auditor",
       });
     }
     this.setState({
@@ -103,7 +99,7 @@ export class CreateUser extends Component {
   render() {
     return (
       <div>
-        <h3>Create New User</h3>
+        <h3>Register New User</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Name: </label>
@@ -144,20 +140,14 @@ export class CreateUser extends Component {
               value={this.state.userType}
               onChange={this.onChangeUsertype}
             >
-              <option key="manufacturer" value="manufacturer">
+              <option key="farmer" value="farmer">
                 Manufacturer
               </option>
-              <option key="distributor" value="distributor">
+              <option key="auditor" value="auditor">
                 Distributor
               </option>
-              <option key="wholesaler" value="wholesaler">
+              <option key="transporter" value="transporter">
                 Wholesaler
-              </option>
-              <option key="retailer" value="retailer">
-                Retailer
-              </option>
-              <option key="consumer" value="consumer">
-                Consumer
               </option>
             </select>
           </div>
@@ -174,7 +164,7 @@ export class CreateUser extends Component {
           <div className="form-group">
             <input
               type="submit"
-              value="Create User"
+              value="Register User"
               className="btn btn-primary"
             />
           </div>

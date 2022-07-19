@@ -6,17 +6,13 @@ import SignIn from "./components/default/signIn.component";
 import CreateTransitPackage from "./components/custom/create-transit-package.component";
 import CreateMeat from "./components/custom/create-meat.component";
 import CreateUser from "./components/default/create-user.component";
-import CreateProduct from "./components/default/create-product.component";
-import CreateOrder from "./components/default/create-order.component";
-import EditUser from "./components/default/edit-user.component";
-import EditProduct from "./components/default/edit-product.component";
 import UsersList from "./components/default/users-list.component";
 import ProductsList from "./components/default/products-list.component";
 import OrdersList from "./components/default/orders-list.component";
 
 function App() {
   const role = sessionStorage.getItem("role");
-  console.log(role)
+  console.log(role);
   return (
     <Router>
       <div className="container">
@@ -27,10 +23,6 @@ function App() {
         <Route path="/createTransitPackage" component={CreateTransitPackage} />
         <Route path="/createUser" component={CreateUser} />
         <Route path="/createMeat" component={CreateMeat} />
-        {/*<Route path="/createProduct" component={CreateProduct} />*/}
-        {/*<Route path="/createOrder" component={CreateOrder} />*/}
-        {/*<Route path="/updateUser/:id" component={EditUser} />*/}
-        {/*<Route path="/updateProduct/:id" component={EditProduct} />*/}
         <Route path="/users" component={UsersList} />
         <Route path="/orders" component={OrdersList} />
       </div>
