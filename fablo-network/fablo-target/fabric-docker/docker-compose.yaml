@@ -36,12 +36,6 @@ services:
       #
       - CORE_PEER_LOCALMSPID=OrdererMSP
       - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/cli/crypto/users/Admin@root.com/msp
-      # enabled TLS
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/cli/crypto/users/Admin@root.com/tls/client.crt
-      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/cli/crypto/users/Admin@root.com/tls/client.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/cli/crypto/users/Admin@root.com/tls/ca.crt
-      - TLS_CA_CERT_PATH=/var/hyperledger/cli/crypto-orderer/tlsca.root.com-cert.pem
     working_dir: /var/hyperledger/cli/
     command: /bin/bash
     volumes:
@@ -49,13 +43,6 @@ services:
       - ../fabric-docker/scripts/cli:/var/hyperledger/cli/scripts/
       - ../fabric-config/config:/var/hyperledger/cli/config/ # genesis.block and channel.tx's
       - ../fabric-config/crypto-config/peerOrganizations/root.com:/var/hyperledger/cli/crypto/
-      - ../fabric-config/crypto-config/peerOrganizations/root.com/peers/orderer0.group1.root.com/msp/tlscacerts/tlsca.root.com-cert.pem:/var/hyperledger/cli/crypto-orderer/tlsca.root.com-cert.pem:ro
-      - ../fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer0.farmer.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.farmer.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer1.farmer.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.farmer.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer0.auditor.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.auditor.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer1.auditor.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.auditor.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer0.transporter.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.transporter.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer1.transporter.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.transporter.example.com/tls/ca.crt:ro
       - ../fabric-config/chaincode-packages:/var/hyperledger/cli/chaincode-packages/
       - "$CHAINCODES_BASE_DIR/../trackmeat/:/var/hyperledger/cli/and-policy-chaincode/"
     networks:
@@ -73,17 +60,6 @@ services:
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
       - GODEBUG=netdns=go
-      # metrics
-      - ORDERER_OPERATIONS_LISTENADDRESS=orderer0.group1.root.com:9440
-      - ORDERER_METRICS_PROVIDER=prometheus
-      # enabled TLS
-      - ORDERER_GENERAL_TLS_ENABLED=true
-      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
-      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
-      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
-      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
-      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
-      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
     working_dir: /var/hyperledger/orderer
     command: orderer
     ports:
@@ -128,12 +104,6 @@ services:
       - CORE_PEER_LOCALMSPID=FarmerOrgMSP
       - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/cli/crypto/users/Admin@farmer.example.com/msp
       - CORE_PEER_ADDRESS=peer0.farmer.example.com:7041
-      # enabled TLS
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/cli/crypto/users/Admin@farmer.example.com/tls/client.crt
-      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/cli/crypto/users/Admin@farmer.example.com/tls/client.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/cli/crypto/users/Admin@farmer.example.com/tls/ca.crt
-      - TLS_CA_CERT_PATH=/var/hyperledger/cli/crypto-orderer/tlsca.root.com-cert.pem
     working_dir: /var/hyperledger/cli/
     command: /bin/bash
     volumes:
@@ -141,13 +111,6 @@ services:
       - ../fabric-docker/scripts/cli:/var/hyperledger/cli/scripts/
       - ../fabric-config/config:/var/hyperledger/cli/config/ # genesis.block and channel.tx's
       - ../fabric-config/crypto-config/peerOrganizations/farmer.example.com:/var/hyperledger/cli/crypto/
-      - ../fabric-config/crypto-config/peerOrganizations/root.com/peers/orderer0.group1.root.com/msp/tlscacerts/tlsca.root.com-cert.pem:/var/hyperledger/cli/crypto-orderer/tlsca.root.com-cert.pem:ro
-      - ../fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer0.farmer.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.farmer.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer1.farmer.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.farmer.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer0.auditor.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.auditor.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer1.auditor.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.auditor.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer0.transporter.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.transporter.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer1.transporter.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.transporter.example.com/tls/ca.crt:ro
       - ../fabric-config/chaincode-packages:/var/hyperledger/cli/chaincode-packages/
       - "$CHAINCODES_BASE_DIR/../trackmeat/:/var/hyperledger/cli/and-policy-chaincode/"
     networks:
@@ -181,11 +144,6 @@ services:
       - CORE_VM_DOCKER_ATTACHSTDOUT=true
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - GODEBUG=netdns=go
-      # enabled TLS
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/peer/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/peer/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/peer/tls/ca.crt
     working_dir: /etc/hyperledger/fabric/peer/
     command: peer node start
     ports:
@@ -228,11 +186,6 @@ services:
       - CORE_VM_DOCKER_ATTACHSTDOUT=true
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - GODEBUG=netdns=go
-      # enabled TLS
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/peer/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/peer/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/peer/tls/ca.crt
     working_dir: /etc/hyperledger/fabric/peer/
     command: peer node start
     ports:
@@ -279,12 +232,6 @@ services:
       - CORE_PEER_LOCALMSPID=AuditorOrgMSP
       - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/cli/crypto/users/Admin@auditor.example.com/msp
       - CORE_PEER_ADDRESS=peer0.auditor.example.com:7061
-      # enabled TLS
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/cli/crypto/users/Admin@auditor.example.com/tls/client.crt
-      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/cli/crypto/users/Admin@auditor.example.com/tls/client.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/cli/crypto/users/Admin@auditor.example.com/tls/ca.crt
-      - TLS_CA_CERT_PATH=/var/hyperledger/cli/crypto-orderer/tlsca.root.com-cert.pem
     working_dir: /var/hyperledger/cli/
     command: /bin/bash
     volumes:
@@ -292,13 +239,6 @@ services:
       - ../fabric-docker/scripts/cli:/var/hyperledger/cli/scripts/
       - ../fabric-config/config:/var/hyperledger/cli/config/ # genesis.block and channel.tx's
       - ../fabric-config/crypto-config/peerOrganizations/auditor.example.com:/var/hyperledger/cli/crypto/
-      - ../fabric-config/crypto-config/peerOrganizations/root.com/peers/orderer0.group1.root.com/msp/tlscacerts/tlsca.root.com-cert.pem:/var/hyperledger/cli/crypto-orderer/tlsca.root.com-cert.pem:ro
-      - ../fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer0.farmer.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.farmer.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer1.farmer.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.farmer.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer0.auditor.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.auditor.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer1.auditor.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.auditor.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer0.transporter.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.transporter.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer1.transporter.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.transporter.example.com/tls/ca.crt:ro
       - ../fabric-config/chaincode-packages:/var/hyperledger/cli/chaincode-packages/
       - "$CHAINCODES_BASE_DIR/../trackmeat/:/var/hyperledger/cli/and-policy-chaincode/"
     networks:
@@ -332,11 +272,6 @@ services:
       - CORE_VM_DOCKER_ATTACHSTDOUT=true
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - GODEBUG=netdns=go
-      # enabled TLS
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/peer/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/peer/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/peer/tls/ca.crt
     working_dir: /etc/hyperledger/fabric/peer/
     command: peer node start
     ports:
@@ -379,11 +314,6 @@ services:
       - CORE_VM_DOCKER_ATTACHSTDOUT=true
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - GODEBUG=netdns=go
-      # enabled TLS
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/peer/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/peer/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/peer/tls/ca.crt
     working_dir: /etc/hyperledger/fabric/peer/
     command: peer node start
     ports:
@@ -430,12 +360,6 @@ services:
       - CORE_PEER_LOCALMSPID=TransporterOrgMSP
       - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/cli/crypto/users/Admin@transporter.example.com/msp
       - CORE_PEER_ADDRESS=peer0.transporter.example.com:7081
-      # enabled TLS
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/cli/crypto/users/Admin@transporter.example.com/tls/client.crt
-      - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/cli/crypto/users/Admin@transporter.example.com/tls/client.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/cli/crypto/users/Admin@transporter.example.com/tls/ca.crt
-      - TLS_CA_CERT_PATH=/var/hyperledger/cli/crypto-orderer/tlsca.root.com-cert.pem
     working_dir: /var/hyperledger/cli/
     command: /bin/bash
     volumes:
@@ -443,13 +367,6 @@ services:
       - ../fabric-docker/scripts/cli:/var/hyperledger/cli/scripts/
       - ../fabric-config/config:/var/hyperledger/cli/config/ # genesis.block and channel.tx's
       - ../fabric-config/crypto-config/peerOrganizations/transporter.example.com:/var/hyperledger/cli/crypto/
-      - ../fabric-config/crypto-config/peerOrganizations/root.com/peers/orderer0.group1.root.com/msp/tlscacerts/tlsca.root.com-cert.pem:/var/hyperledger/cli/crypto-orderer/tlsca.root.com-cert.pem:ro
-      - ../fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer0.farmer.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.farmer.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer1.farmer.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.farmer.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer0.auditor.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.auditor.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer1.auditor.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.auditor.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer0.transporter.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer0.transporter.example.com/tls/ca.crt:ro
-      - ../fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer1.transporter.example.com/tls/ca.crt:/var/hyperledger/cli/crypto-peer/peer1.transporter.example.com/tls/ca.crt:ro
       - ../fabric-config/chaincode-packages:/var/hyperledger/cli/chaincode-packages/
       - "$CHAINCODES_BASE_DIR/../trackmeat/:/var/hyperledger/cli/and-policy-chaincode/"
     networks:
@@ -483,11 +400,6 @@ services:
       - CORE_VM_DOCKER_ATTACHSTDOUT=true
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - GODEBUG=netdns=go
-      # enabled TLS
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/peer/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/peer/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/peer/tls/ca.crt
     working_dir: /etc/hyperledger/fabric/peer/
     command: peer node start
     ports:
@@ -530,11 +442,6 @@ services:
       - CORE_VM_DOCKER_ATTACHSTDOUT=true
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - GODEBUG=netdns=go
-      # enabled TLS
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/peer/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/peer/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/peer/tls/ca.crt
     working_dir: /etc/hyperledger/fabric/peer/
     command: peer node start
     ports:

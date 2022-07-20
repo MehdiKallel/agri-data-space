@@ -1,6 +1,6 @@
 global:
   fabricVersion: 2.3.0
-  tls: true
+  tls: false
 orgs:
   - organization:
       name: Orderer
