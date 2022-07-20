@@ -111,7 +111,7 @@ export class CreateUser extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Password: </label>
+            <label>Identiy: </label>
             <input
               type="password"
               required
