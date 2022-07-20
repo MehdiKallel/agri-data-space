@@ -41,6 +41,11 @@ export class Navbar extends Component {
                 </Link>
               </li>
               <li className="navbar-item">
+                <Link to="/DeliverTransit" className="nav-link">
+                  Register Delivery
+                </Link>
+              </li>
+              <li className="navbar-item">
                 <Link to="/" className="nav-link">
                   Logout
                 </Link>

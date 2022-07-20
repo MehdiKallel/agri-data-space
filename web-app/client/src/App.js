@@ -8,6 +8,7 @@ import CreateMeat from "./components/custom/create-meat.component";
 import CreateUser from "./components/custom/create-user.component";
 import MeatList from "./components/custom/meat-list.component";
 import TransitPackageList from "./components/custom/transit-package-list.component";
+import DeliverTransit from "./components/custom/deliver-transit.component";
 
 import UsersList from "./components/default/users-list.component";
 import ProductsList from "./components/default/products-list.component";
@@ -29,6 +30,7 @@ function App() {
           <Route path="/registerNewUser" component={CreateUser} />
           <Route path="/ListMeat" component={MeatList}/>
           <Route path="/ListTransitPackages" component={TransitPackageList}/>
+          <Route path="/DeliverTransit" component={DeliverTransit}/>
         </div>
       </Router>
   );
