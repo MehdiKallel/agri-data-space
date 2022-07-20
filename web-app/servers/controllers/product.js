@@ -6,7 +6,7 @@ exports.registerMeat = async (req, res) => {
     const { Type, ProcDate, ShellLife, Farmer, CountryOrigin, Footprint, MeatMat, loggedUserType } = req.body;
     console.log('1');
 
-    if (!Type || !ProcDate || !ShellLife || !Farmer || !CountryOrigin || !Footprint || !sMeatMat) {
+    if (!Type || !ProcDate || !ShellLife || !Farmer || !CountryOrigin || !Footprint || !MeatMat) {
         return apiResponse.badRequest(res);
     }
     console.log('2');
