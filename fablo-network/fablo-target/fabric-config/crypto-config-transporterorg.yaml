@@ -1,6 +1,6 @@
 PeerOrgs:
-  - Name: Org1
-    Domain: org1.example.com
+  - Name: TransporterOrg
+    Domain: transporter.example.com
     Specs:
     Template:
       Count: 2

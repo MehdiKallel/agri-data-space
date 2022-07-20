@@ -3,17 +3,21 @@
 __getOrdererAndPeerNodes() {
   echo "
       orderer0.group1.root.com
-      peer0.org1.example.com
-      peer1.org1.example.com
-      peer0.org2.example.com
+      peer0.farmer.example.com
+      peer1.farmer.example.com
+      peer0.auditor.example.com
+      peer1.auditor.example.com
+      peer0.transporter.example.com
+      peer1.transporter.example.com
   "
 }
 
 __getCASQLiteNodes() {
   echo "
       ca.root.com
-      ca.org1.example.com
-      ca.org2.example.com
+      ca.farmer.example.com
+      ca.auditor.example.com
+      ca.transporter.example.com
   "
 }
 

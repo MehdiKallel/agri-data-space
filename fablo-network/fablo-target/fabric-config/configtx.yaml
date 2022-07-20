@@ -51,54 +51,83 @@ Organizations:
 
       AnchorPeers:
 
-    - &Org1
-      Name: Org1MSP
-      ID: Org1MSP
-      MSPDir: crypto-config/peerOrganizations/org1.example.com/msp
+    - &FarmerOrg
+      Name: FarmerOrgMSP
+      ID: FarmerOrgMSP
+      MSPDir: crypto-config/peerOrganizations/farmer.example.com/msp
 
       Policies:
           Readers:
               Type: Signature
-              Rule: "OR('Org1MSP.member')"
+              Rule: "OR('FarmerOrgMSP.member')"
           Writers:
               Type: Signature
-              Rule: "OR('Org1MSP.member')"
+              Rule: "OR('FarmerOrgMSP.member')"
           Admins:
               Type: Signature
-              Rule: "OR('Org1MSP.admin')"
+              Rule: "OR('FarmerOrgMSP.admin')"
           Endorsement:
               Type: Signature
-              Rule: "OR('Org1MSP.member')"
+              Rule: "OR('FarmerOrgMSP.member')"
 
       AnchorPeers:
-          - Host: peer0.org1.example.com
+          - Host: peer0.farmer.example.com
             Port: 7041
 
-          - Host: peer1.org1.example.com
+          - Host: peer1.farmer.example.com
             Port: 7042
 
-    - &Org2
-      Name: Org2MSP
-      ID: Org2MSP
-      MSPDir: crypto-config/peerOrganizations/org2.example.com/msp
+    - &AuditorOrg
+      Name: AuditorOrgMSP
+      ID: AuditorOrgMSP
+      MSPDir: crypto-config/peerOrganizations/auditor.example.com/msp
 
       Policies:
           Readers:
               Type: Signature
-              Rule: "OR('Org2MSP.member')"
+              Rule: "OR('AuditorOrgMSP.member')"
           Writers:
               Type: Signature
-              Rule: "OR('Org2MSP.member')"
+              Rule: "OR('AuditorOrgMSP.member')"
           Admins:
               Type: Signature
-              Rule: "OR('Org2MSP.admin')"
+              Rule: "OR('AuditorOrgMSP.admin')"
           Endorsement:
               Type: Signature
-              Rule: "OR('Org2MSP.member')"
+              Rule: "OR('AuditorOrgMSP.member')"
 
       AnchorPeers:
-          - Host: peer0.org2.example.com
+          - Host: peer0.auditor.example.com
             Port: 7061
+
+          - Host: peer1.auditor.example.com
+            Port: 7062
+
+    - &TransporterOrg
+      Name: TransporterOrgMSP
+      ID: TransporterOrgMSP
+      MSPDir: crypto-config/peerOrganizations/transporter.example.com/msp
+
+      Policies:
+          Readers:
+              Type: Signature
+              Rule: "OR('TransporterOrgMSP.member')"
+          Writers:
+              Type: Signature
+              Rule: "OR('TransporterOrgMSP.member')"
+          Admins:
+              Type: Signature
+              Rule: "OR('TransporterOrgMSP.admin')"
+          Endorsement:
+              Type: Signature
+              Rule: "OR('TransporterOrgMSP.member')"
+
+      AnchorPeers:
+          - Host: peer0.transporter.example.com
+            Port: 7081
+
+          - Host: peer1.transporter.example.com
+            Port: 7082
 
 ################################################################################
 #   SECTION: Application
@@ -177,8 +206,9 @@ Profiles:
             SampleConsortium:
                 Organizations:
                     - *Orderer
-                    - *Org1
-                    - *Org2
+                    - *FarmerOrg
+                    - *AuditorOrg
+                    - *TransporterOrg
 
     # Profile used to create channeltx for mychannel #
     Mychannel:
@@ -193,10 +223,12 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                    - *Org1
-                    - *Org2
+                    - *FarmerOrg
+                    - *AuditorOrg
+                    - *TransporterOrg
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *Org1
-                - *Org2
+                - *FarmerOrg
+                - *AuditorOrg
+                - *TransporterOrg

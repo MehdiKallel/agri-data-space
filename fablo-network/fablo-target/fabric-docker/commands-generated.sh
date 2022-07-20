@@ -6,11 +6,14 @@ generateArtifacts() {
   printItalics "Generating crypto material for Orderer" "U1F512"
   certsGenerate "$FABLO_NETWORK_ROOT/fabric-config" "crypto-config-orderer.yaml" "peerOrganizations/root.com" "$FABLO_NETWORK_ROOT/fabric-config/crypto-config/"
 
-  printItalics "Generating crypto material for Org1" "U1F512"
-  certsGenerate "$FABLO_NETWORK_ROOT/fabric-config" "crypto-config-org1.yaml" "peerOrganizations/org1.example.com" "$FABLO_NETWORK_ROOT/fabric-config/crypto-config/"
+  printItalics "Generating crypto material for FarmerOrg" "U1F512"
+  certsGenerate "$FABLO_NETWORK_ROOT/fabric-config" "crypto-config-farmerorg.yaml" "peerOrganizations/farmer.example.com" "$FABLO_NETWORK_ROOT/fabric-config/crypto-config/"
 
-  printItalics "Generating crypto material for Org2" "U1F512"
-  certsGenerate "$FABLO_NETWORK_ROOT/fabric-config" "crypto-config-org2.yaml" "peerOrganizations/org2.example.com" "$FABLO_NETWORK_ROOT/fabric-config/crypto-config/"
+  printItalics "Generating crypto material for AuditorOrg" "U1F512"
+  certsGenerate "$FABLO_NETWORK_ROOT/fabric-config" "crypto-config-auditororg.yaml" "peerOrganizations/auditor.example.com" "$FABLO_NETWORK_ROOT/fabric-config/crypto-config/"
+
+  printItalics "Generating crypto material for TransporterOrg" "U1F512"
+  certsGenerate "$FABLO_NETWORK_ROOT/fabric-config" "crypto-config-transporterorg.yaml" "peerOrganizations/transporter.example.com" "$FABLO_NETWORK_ROOT/fabric-config/crypto-config/"
 
   printItalics "Generating genesis block for group group1" "U1F3E0"
   genesisBlockCreate "$FABLO_NETWORK_ROOT/fabric-config" "$FABLO_NETWORK_ROOT/fabric-config/config" "Group1Genesis"
@@ -31,13 +34,19 @@ generateChannelsArtifacts() {
 }
 
 installChannels() {
-  printHeadline "Creating 'mychannel' on Org1/peer0" "U1F63B"
-  docker exec -i cli.org1.example.com bash -c "source scripts/channel_fns.sh; createChannelAndJoin 'mychannel' 'Org1MSP' 'peer0.org1.example.com:7041' 'crypto/users/Admin@org1.example.com/msp' 'orderer0.group1.root.com:7030';"
+  printHeadline "Creating 'mychannel' on FarmerOrg/peer0" "U1F63B"
+  docker exec -i cli.farmer.example.com bash -c "source scripts/channel_fns.sh; createChannelAndJoinTls 'mychannel' 'FarmerOrgMSP' 'peer0.farmer.example.com:7041' 'crypto/users/Admin@farmer.example.com/msp' 'crypto/users/Admin@farmer.example.com/tls' 'crypto-orderer/tlsca.root.com-cert.pem' 'orderer0.group1.root.com:7030';"
 
-  printItalics "Joining 'mychannel' on  Org1/peer1" "U1F638"
-  docker exec -i cli.org1.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoin 'mychannel' 'Org1MSP' 'peer1.org1.example.com:7042' 'crypto/users/Admin@org1.example.com/msp' 'orderer0.group1.root.com:7030';"
-  printItalics "Joining 'mychannel' on  Org2/peer0" "U1F638"
-  docker exec -i cli.org2.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoin 'mychannel' 'Org2MSP' 'peer0.org2.example.com:7061' 'crypto/users/Admin@org2.example.com/msp' 'orderer0.group1.root.com:7030';"
+  printItalics "Joining 'mychannel' on  FarmerOrg/peer1" "U1F638"
+  docker exec -i cli.farmer.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'mychannel' 'FarmerOrgMSP' 'peer1.farmer.example.com:7042' 'crypto/users/Admin@farmer.example.com/msp' 'crypto/users/Admin@farmer.example.com/tls' 'crypto-orderer/tlsca.root.com-cert.pem' 'orderer0.group1.root.com:7030';"
+  printItalics "Joining 'mychannel' on  AuditorOrg/peer0" "U1F638"
+  docker exec -i cli.auditor.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'mychannel' 'AuditorOrgMSP' 'peer0.auditor.example.com:7061' 'crypto/users/Admin@auditor.example.com/msp' 'crypto/users/Admin@auditor.example.com/tls' 'crypto-orderer/tlsca.root.com-cert.pem' 'orderer0.group1.root.com:7030';"
+  printItalics "Joining 'mychannel' on  AuditorOrg/peer1" "U1F638"
+  docker exec -i cli.auditor.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'mychannel' 'AuditorOrgMSP' 'peer1.auditor.example.com:7062' 'crypto/users/Admin@auditor.example.com/msp' 'crypto/users/Admin@auditor.example.com/tls' 'crypto-orderer/tlsca.root.com-cert.pem' 'orderer0.group1.root.com:7030';"
+  printItalics "Joining 'mychannel' on  TransporterOrg/peer0" "U1F638"
+  docker exec -i cli.transporter.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'mychannel' 'TransporterOrgMSP' 'peer0.transporter.example.com:7081' 'crypto/users/Admin@transporter.example.com/msp' 'crypto/users/Admin@transporter.example.com/tls' 'crypto-orderer/tlsca.root.com-cert.pem' 'orderer0.group1.root.com:7030';"
+  printItalics "Joining 'mychannel' on  TransporterOrg/peer1" "U1F638"
+  docker exec -i cli.transporter.example.com bash -c "source scripts/channel_fns.sh; fetchChannelAndJoinTls 'mychannel' 'TransporterOrgMSP' 'peer1.transporter.example.com:7082' 'crypto/users/Admin@transporter.example.com/msp' 'crypto/users/Admin@transporter.example.com/tls' 'crypto-orderer/tlsca.root.com-cert.pem' 'orderer0.group1.root.com:7030';"
 }
 
 installChaincodes() {
@@ -45,15 +54,20 @@ installChaincodes() {
     local version="0.0.1"
     printHeadline "Packaging chaincode 'and-policy-chaincode'" "U1F60E"
     chaincodeBuild "and-policy-chaincode" "golang" "$CHAINCODES_BASE_DIR/../trackmeat"
-    chaincodePackage "cli.org1.example.com" "peer0.org1.example.com:7041" "and-policy-chaincode" "$version" "golang" printHeadline "Installing 'and-policy-chaincode' for Org1" "U1F60E"
-    chaincodeInstall "cli.org1.example.com" "peer0.org1.example.com:7041" "and-policy-chaincode" "$version" ""
-    chaincodeInstall "cli.org1.example.com" "peer1.org1.example.com:7042" "and-policy-chaincode" "$version" ""
-    chaincodeApprove "cli.org1.example.com" "peer0.org1.example.com:7041" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "AND('Org1MSP.member', 'Org2MSP.member')" "false" "" ""
-    printHeadline "Installing 'and-policy-chaincode' for Org2" "U1F60E"
-    chaincodeInstall "cli.org2.example.com" "peer0.org2.example.com:7061" "and-policy-chaincode" "$version" ""
-    chaincodeApprove "cli.org2.example.com" "peer0.org2.example.com:7061" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "AND('Org1MSP.member', 'Org2MSP.member')" "false" "" ""
-    printItalics "Committing chaincode 'and-policy-chaincode' on channel 'mychannel' as 'Org1'" "U1F618"
-    chaincodeCommit "cli.org1.example.com" "peer0.org1.example.com:7041" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "AND('Org1MSP.member', 'Org2MSP.member')" "false" "" "peer0.org1.example.com:7041,peer0.org2.example.com:7061" "" ""
+    chaincodePackage "cli.farmer.example.com" "peer0.farmer.example.com:7041" "and-policy-chaincode" "$version" "golang" printHeadline "Installing 'and-policy-chaincode' for FarmerOrg" "U1F60E"
+    chaincodeInstall "cli.farmer.example.com" "peer0.farmer.example.com:7041" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+    chaincodeInstall "cli.farmer.example.com" "peer1.farmer.example.com:7042" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+    chaincodeApprove "cli.farmer.example.com" "peer0.farmer.example.com:7041" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "" "false" "crypto-orderer/tlsca.root.com-cert.pem" ""
+    printHeadline "Installing 'and-policy-chaincode' for AuditorOrg" "U1F60E"
+    chaincodeInstall "cli.auditor.example.com" "peer0.auditor.example.com:7061" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+    chaincodeInstall "cli.auditor.example.com" "peer1.auditor.example.com:7062" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+    chaincodeApprove "cli.auditor.example.com" "peer0.auditor.example.com:7061" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "" "false" "crypto-orderer/tlsca.root.com-cert.pem" ""
+    printHeadline "Installing 'and-policy-chaincode' for TransporterOrg" "U1F60E"
+    chaincodeInstall "cli.transporter.example.com" "peer0.transporter.example.com:7081" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+    chaincodeInstall "cli.transporter.example.com" "peer1.transporter.example.com:7082" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+    chaincodeApprove "cli.transporter.example.com" "peer0.transporter.example.com:7081" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "" "false" "crypto-orderer/tlsca.root.com-cert.pem" ""
+    printItalics "Committing chaincode 'and-policy-chaincode' on channel 'mychannel' as 'FarmerOrg'" "U1F618"
+    chaincodeCommit "cli.farmer.example.com" "peer0.farmer.example.com:7041" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "" "false" "crypto-orderer/tlsca.root.com-cert.pem" "peer0.farmer.example.com:7041,peer0.auditor.example.com:7061,peer0.transporter.example.com:7081" "crypto-peer/peer0.farmer.example.com/tls/ca.crt,crypto-peer/peer0.auditor.example.com/tls/ca.crt,crypto-peer/peer0.transporter.example.com/tls/ca.crt" ""
   else
     echo "Warning! Skipping chaincode 'and-policy-chaincode' installation. Chaincode directory is empty."
     echo "Looked in dir: '$CHAINCODES_BASE_DIR/../trackmeat'"
@@ -63,16 +77,19 @@ installChaincodes() {
 
 notifyOrgsAboutChannels() {
   printHeadline "Creating new channel config blocks" "U1F537"
-  createNewChannelUpdateTx "mychannel" "Org1MSP" "Mychannel" "$FABLO_NETWORK_ROOT/fabric-config" "$FABLO_NETWORK_ROOT/fabric-config/config"
-  createNewChannelUpdateTx "mychannel" "Org2MSP" "Mychannel" "$FABLO_NETWORK_ROOT/fabric-config" "$FABLO_NETWORK_ROOT/fabric-config/config"
+  createNewChannelUpdateTx "mychannel" "FarmerOrgMSP" "Mychannel" "$FABLO_NETWORK_ROOT/fabric-config" "$FABLO_NETWORK_ROOT/fabric-config/config"
+  createNewChannelUpdateTx "mychannel" "AuditorOrgMSP" "Mychannel" "$FABLO_NETWORK_ROOT/fabric-config" "$FABLO_NETWORK_ROOT/fabric-config/config"
+  createNewChannelUpdateTx "mychannel" "TransporterOrgMSP" "Mychannel" "$FABLO_NETWORK_ROOT/fabric-config" "$FABLO_NETWORK_ROOT/fabric-config/config"
 
   printHeadline "Notyfing orgs about channels" "U1F4E2"
-  notifyOrgAboutNewChannel "mychannel" "Org1MSP" "cli.org1.example.com" "peer0.org1.example.com" "orderer0.group1.root.com:7030"
-  notifyOrgAboutNewChannel "mychannel" "Org2MSP" "cli.org2.example.com" "peer0.org2.example.com" "orderer0.group1.root.com:7030"
+  notifyOrgAboutNewChannelTls "mychannel" "FarmerOrgMSP" "cli.farmer.example.com" "peer0.farmer.example.com" "orderer0.group1.root.com:7030" "crypto-orderer/tlsca.root.com-cert.pem"
+  notifyOrgAboutNewChannelTls "mychannel" "AuditorOrgMSP" "cli.auditor.example.com" "peer0.auditor.example.com" "orderer0.group1.root.com:7030" "crypto-orderer/tlsca.root.com-cert.pem"
+  notifyOrgAboutNewChannelTls "mychannel" "TransporterOrgMSP" "cli.transporter.example.com" "peer0.transporter.example.com" "orderer0.group1.root.com:7030" "crypto-orderer/tlsca.root.com-cert.pem"
 
   printHeadline "Deleting new channel config blocks" "U1F52A"
-  deleteNewChannelUpdateTx "mychannel" "Org1MSP" "cli.org1.example.com"
-  deleteNewChannelUpdateTx "mychannel" "Org2MSP" "cli.org2.example.com"
+  deleteNewChannelUpdateTx "mychannel" "FarmerOrgMSP" "cli.farmer.example.com"
+  deleteNewChannelUpdateTx "mychannel" "AuditorOrgMSP" "cli.auditor.example.com"
+  deleteNewChannelUpdateTx "mychannel" "TransporterOrgMSP" "cli.transporter.example.com"
 }
 
 upgradeChaincode() {
@@ -92,15 +109,20 @@ upgradeChaincode() {
     if [ -n "$(ls "$CHAINCODES_BASE_DIR/../trackmeat")" ]; then
       printHeadline "Packaging chaincode 'and-policy-chaincode'" "U1F60E"
       chaincodeBuild "and-policy-chaincode" "golang" "$CHAINCODES_BASE_DIR/../trackmeat"
-      chaincodePackage "cli.org1.example.com" "peer0.org1.example.com:7041" "and-policy-chaincode" "$version" "golang" printHeadline "Installing 'and-policy-chaincode' for Org1" "U1F60E"
-      chaincodeInstall "cli.org1.example.com" "peer0.org1.example.com:7041" "and-policy-chaincode" "$version" ""
-      chaincodeInstall "cli.org1.example.com" "peer1.org1.example.com:7042" "and-policy-chaincode" "$version" ""
-      chaincodeApprove "cli.org1.example.com" "peer0.org1.example.com:7041" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "AND('Org1MSP.member', 'Org2MSP.member')" "false" "" ""
-      printHeadline "Installing 'and-policy-chaincode' for Org2" "U1F60E"
-      chaincodeInstall "cli.org2.example.com" "peer0.org2.example.com:7061" "and-policy-chaincode" "$version" ""
-      chaincodeApprove "cli.org2.example.com" "peer0.org2.example.com:7061" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "AND('Org1MSP.member', 'Org2MSP.member')" "false" "" ""
-      printItalics "Committing chaincode 'and-policy-chaincode' on channel 'mychannel' as 'Org1'" "U1F618"
-      chaincodeCommit "cli.org1.example.com" "peer0.org1.example.com:7041" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "AND('Org1MSP.member', 'Org2MSP.member')" "false" "" "peer0.org1.example.com:7041,peer0.org2.example.com:7061" "" ""
+      chaincodePackage "cli.farmer.example.com" "peer0.farmer.example.com:7041" "and-policy-chaincode" "$version" "golang" printHeadline "Installing 'and-policy-chaincode' for FarmerOrg" "U1F60E"
+      chaincodeInstall "cli.farmer.example.com" "peer0.farmer.example.com:7041" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+      chaincodeInstall "cli.farmer.example.com" "peer1.farmer.example.com:7042" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+      chaincodeApprove "cli.farmer.example.com" "peer0.farmer.example.com:7041" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "" "false" "crypto-orderer/tlsca.root.com-cert.pem" ""
+      printHeadline "Installing 'and-policy-chaincode' for AuditorOrg" "U1F60E"
+      chaincodeInstall "cli.auditor.example.com" "peer0.auditor.example.com:7061" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+      chaincodeInstall "cli.auditor.example.com" "peer1.auditor.example.com:7062" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+      chaincodeApprove "cli.auditor.example.com" "peer0.auditor.example.com:7061" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "" "false" "crypto-orderer/tlsca.root.com-cert.pem" ""
+      printHeadline "Installing 'and-policy-chaincode' for TransporterOrg" "U1F60E"
+      chaincodeInstall "cli.transporter.example.com" "peer0.transporter.example.com:7081" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+      chaincodeInstall "cli.transporter.example.com" "peer1.transporter.example.com:7082" "and-policy-chaincode" "$version" "crypto-orderer/tlsca.root.com-cert.pem"
+      chaincodeApprove "cli.transporter.example.com" "peer0.transporter.example.com:7081" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "" "false" "crypto-orderer/tlsca.root.com-cert.pem" ""
+      printItalics "Committing chaincode 'and-policy-chaincode' on channel 'mychannel' as 'FarmerOrg'" "U1F618"
+      chaincodeCommit "cli.farmer.example.com" "peer0.farmer.example.com:7041" "mychannel" "and-policy-chaincode" "$version" "orderer0.group1.root.com:7030" "" "false" "crypto-orderer/tlsca.root.com-cert.pem" "peer0.farmer.example.com:7041,peer0.auditor.example.com:7061,peer0.transporter.example.com:7081" "crypto-peer/peer0.farmer.example.com/tls/ca.crt,crypto-peer/peer0.auditor.example.com/tls/ca.crt,crypto-peer/peer0.transporter.example.com/tls/ca.crt" ""
 
     else
       echo "Warning! Skipping chaincode 'and-policy-chaincode' upgrade. Chaincode directory is empty."
@@ -120,12 +142,18 @@ networkDown() {
   (cd "$FABLO_NETWORK_ROOT"/fabric-docker && docker-compose down)
 
   printf "\nRemoving chaincode containers & images... \U1F5D1 \n"
-  docker rm -f $(docker ps -a | grep dev-peer0.org1.example.com-and-policy-chaincode-0.0.1-* | awk '{print $1}') || echo "docker rm failed, Check if all fabric dockers properly was deleted"
-  docker rmi $(docker images dev-peer0.org1.example.com-and-policy-chaincode-0.0.1-* -q) || echo "docker rm failed, Check if all fabric dockers properly was deleted"
-  docker rm -f $(docker ps -a | grep dev-peer1.org1.example.com-and-policy-chaincode-0.0.1-* | awk '{print $1}') || echo "docker rm failed, Check if all fabric dockers properly was deleted"
-  docker rmi $(docker images dev-peer1.org1.example.com-and-policy-chaincode-0.0.1-* -q) || echo "docker rm failed, Check if all fabric dockers properly was deleted"
-  docker rm -f $(docker ps -a | grep dev-peer0.org2.example.com-and-policy-chaincode-0.0.1-* | awk '{print $1}') || echo "docker rm failed, Check if all fabric dockers properly was deleted"
-  docker rmi $(docker images dev-peer0.org2.example.com-and-policy-chaincode-0.0.1-* -q) || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rm -f $(docker ps -a | grep dev-peer0.farmer.example.com-and-policy-chaincode-0.0.1-* | awk '{print $1}') || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rmi $(docker images dev-peer0.farmer.example.com-and-policy-chaincode-0.0.1-* -q) || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rm -f $(docker ps -a | grep dev-peer1.farmer.example.com-and-policy-chaincode-0.0.1-* | awk '{print $1}') || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rmi $(docker images dev-peer1.farmer.example.com-and-policy-chaincode-0.0.1-* -q) || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rm -f $(docker ps -a | grep dev-peer0.auditor.example.com-and-policy-chaincode-0.0.1-* | awk '{print $1}') || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rmi $(docker images dev-peer0.auditor.example.com-and-policy-chaincode-0.0.1-* -q) || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rm -f $(docker ps -a | grep dev-peer1.auditor.example.com-and-policy-chaincode-0.0.1-* | awk '{print $1}') || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rmi $(docker images dev-peer1.auditor.example.com-and-policy-chaincode-0.0.1-* -q) || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rm -f $(docker ps -a | grep dev-peer0.transporter.example.com-and-policy-chaincode-0.0.1-* | awk '{print $1}') || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rmi $(docker images dev-peer0.transporter.example.com-and-policy-chaincode-0.0.1-* -q) || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rm -f $(docker ps -a | grep dev-peer1.transporter.example.com-and-policy-chaincode-0.0.1-* | awk '{print $1}') || echo "docker rm failed, Check if all fabric dockers properly was deleted"
+  docker rmi $(docker images dev-peer1.transporter.example.com-and-policy-chaincode-0.0.1-* -q) || echo "docker rm failed, Check if all fabric dockers properly was deleted"
 
   printf "\nRemoving generated configs... \U1F5D1 \n"
   rm -rf "$FABLO_NETWORK_ROOT/fabric-config/config"

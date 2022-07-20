@@ -1,13 +1,13 @@
 {
-  "name": "fablo-test-network-orderer",
-  "description": "Connection profile for Orderer in Fablo network",
+  "name": "fablo-test-network-auditororg",
+  "description": "Connection profile for AuditorOrg in Fablo network",
   "version": "1.0.0",
   "client": {
-    "organization": "Orderer"
+    "organization": "AuditorOrg"
   },
   "organizations": {
-    "Orderer": {
-      "mspid": "OrdererMSP",
+    "AuditorOrg": {
+      "mspid": "AuditorOrgMSP",
       "peers": [
         "peer0.farmer.example.com",
         "peer1.farmer.example.com",
@@ -17,7 +17,7 @@
         "peer1.transporter.example.com"
       ],
       "certificateAuthorities": [
-        "ca.root.com"
+        "ca.auditor.example.com"
       ]
     }
   },
@@ -78,11 +78,11 @@
     }
   },
   "certificateAuthorities": {
-    "ca.root.com": {
-      "url": "http://localhost:7020",
-      "caName": "ca.root.com",
+    "ca.auditor.example.com": {
+      "url": "http://localhost:7060",
+      "caName": "ca.auditor.example.com",
       "tlsCACerts": {
-        "path": "/home/mehdi/agri-data-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/root.com/ca/ca.root.com-cert.pem"
+        "path": "/home/mehdi/agri-data-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/auditor.example.com/ca/ca.auditor.example.com-cert.pem"
       },
       "httpOptions": {
         "verify": false
