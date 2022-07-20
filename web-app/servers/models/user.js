@@ -4,8 +4,7 @@ const authenticateUtil = require('../utils/authenticate.js');
 
 
 exports.signup = async (isFarmer, isAuditor, isTransporter, information) => {
-    const { id, userType, address, name, email, password } = information;
-
+    const { id, name, email, userType, address, password } = information;
     let networkObj;
     networkObj = await network.connect(isFarmer, isAuditor, isTransporter, id);
     
@@ -39,7 +38,7 @@ exports.signin = async (isFarmer, isAuditor, isTransporter, information) => {
     return apiResponse.createModelRes(200, 'Success', { id, UserType, Name, accessToken });
 };
 
-exports.getAllUser = async (isFarmer, isAuditor, isTransporter, information) => {
+exports.getAllUser = async (information) => {
     const { id } = information;
 
     const networkObj = await network.connect(true, false, false, 'admin');

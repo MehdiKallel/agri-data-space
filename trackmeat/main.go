@@ -39,10 +39,61 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 		return t.registerMeat(stub, args)
 	} else if function == "transitMeat" {
 		return t.transitMeat(stub, args)
+	} else if function == "createUser" {
+		return t.createUser(stub, args)
 	}
 	fmt.Println("invoke did not find func: " + function) //error
 	return shim.Error("Received unknown function invocation")
 }
+
+//method only used by farmer
+func (t *SimpleChaincode) createUser(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	var err error
+
+	if len(args) != 5 {
+		return shim.Error("Incorrect number of arguments. Expecting 7")
+	}
+	for i, s := range args {
+		if len(s) <= 0 {
+			return shim.Error("argument " + strconv.Itoa(i) + " must be a non-empty string")
+		}
+	}
+	msp, _ := cid.GetMSPID(stub)
+	if msp != "FarmerOrgMSP" {
+		return shim.Error("Only Farmers are allowed to register meat products")
+	}
+	meatType := args[0]
+	procDate := strings.ToLower(args[1])
+	shellLife, err := strconv.Atoi(args[2])
+	if err != nil {
+		return shim.Error("3rd argument must be a numeric string")
+	}
+	countryOfOrigin := strings.ToLower(args[4])
+	footprint := strings.ToLower(args[5])
+	meatMat := strings.ToLower(args[3])
+
+	farmerMat, err := cid.GetID(stub)
+	if err != nil {
+		return shim.Error("Failed to get Farmer identity: " + err.Error())
+	}
+
+	meatAsBytes, err := stub.GetState(meatMat)
+	if err != nil {
+		return shim.Error("Failed to get meat: " + err.Error())
+	} else if meatAsBytes != nil {
+		fmt.Println("This meat already exists: " + meatMat)
+		return shim.Error("This meat already exists: " + meatMat)
+	}
+
+	meat := lib.Meat{MeatType: meatType, ProcDate: procDate, ShellLife: shellLife, FarmerMat: farmerMat, CountryOfOrigin: countryOfOrigin, Footprint: footprint, MeatMat: meatMat}
+
+	if err := utils.WriteLedger(meat, stub, lib.MeatKey, []string{meat.MeatMat}); err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
+	}
+	return shim.Success(nil)
+}
+
+
 
 //method only used by farmer
 func (t *SimpleChaincode) registerMeat(stub shim.ChaincodeStubInterface, args []string) pb.Response {
