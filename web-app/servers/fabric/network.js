@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const FabricCAServices = require('fabric-ca-client');
 const { FileSystemWallet, Gateway, X509WalletMixin } = require('fabric-network');
+const myChannel = "mychannel";
+const myChaincodeName = "auction";
 
 const farmerCcpPath = path.join('/home/mehdi/agri-data-space/web-app/servers/fabric/connection-profile-farmerorg.json');
 const farmerCcpFile = fs.readFileSync(farmerCcpPath, 'utf8');
@@ -22,33 +24,81 @@ const transporterCcp = JSON.parse(transporterCcpFile);
 function getConnectionMaterial(isFarmer, isAuditor, isTransporter) {
     const connectionMaterial = {};
     if (isFarmer) {
-        connectionMaterial.walletPath = path.join(
-            '/',
-            'home/mehdi/agriculture-space/fablo-network/scripts/wallet/farmer',
+        const ccpPath = path.resolve(
+            __dirname,
+            "fablo-network",
+            "fablo-target",
+            "fabric-config",
+            "connection-profiles",
+            "connection-profile-farmerorg.json"
         );
-        connectionMaterial.connection = farmerCcp;
+        const fileExists = fs.existsSync(ccpPath);
+        if (!fileExists) {
+            throw new Error(`no such file or directory: ${ccpPath}`);
+        }
+        
+        const contents = fs.readFileSync(ccpPath, "utf8");
+        const ccp = JSON.parse(contents);
+        connectionMaterial.ccp = ccp;
         connectionMaterial.orgMSPID = 'FarmerOrgMSP';
-        connectionMaterial.caURL = 'http://localhost:7040';
+        const walletPath = path.join(
+            __dirname,
+            "fablo-network/scripts/wallet/farmer"
+        );
+        const wallet = await buildWallet(Wallets, walletPath);
+        connectionMaterial.wallet = wallet;
     }
     if (isAuditor) {
-        connectionMaterial.walletPath = path.join(
-            '/',
-            'home/mehdi/agriculture-space/fablo-network/scripts/wallet/auditor',
+        const ccpPath = path.resolve(
+            __dirname,
+            "fablo-network",
+            "fablo-target",
+            "fabric-config",
+            "connection-profiles",
+            "connection-profile-auditororg.json"
         );
-        connectionMaterial.connection = auditorCcp;
+        const fileExists = fs.existsSync(ccpPath);
+        if (!fileExists) {
+            throw new Error(`no such file or directory: ${ccpPath}`);
+        }
+        
+        const contents = fs.readFileSync(ccpPath, "utf8");
+        const ccp = JSON.parse(contents);
+        connectionMaterial.ccp = ccp;
         connectionMaterial.orgMSPID = 'AuditorOrgMSP';
-        connectionMaterial.caURL = 'http://localhost:7060';
+        const walletPath = path.join(
+            __dirname,
+            "fablo-network/scripts/wallet/auditor"
+        );
+        const wallet = await buildWallet(Wallets, walletPath);
+        connectionMaterial.wallet = wallet;
     }
 
     if (isTransporter) {
-                           connectionMaterial.walletPath = path.join(
-                               '/',
-                               'home/mehdi/agriculture-space/fablo-network/scripts/wallet/transporter',
-                           );
-                           connectionMaterial.connection = transporterCcp;
-                           connectionMaterial.orgMSPID = 'TransporterOrgMSP';
-                           connectionMaterial.caURL = 'http://localhost:7080';
-                       }
+        const ccpPath = path.resolve(
+            __dirname,
+            "fablo-network",
+            "fablo-target",
+            "fabric-config",
+            "connection-profiles",
+            "connection-profile-transporterorg.json"
+        );
+        const fileExists = fs.existsSync(ccpPath);
+        if (!fileExists) {
+            throw new Error(`no such file or directory: ${ccpPath}`);
+        }
+        
+        const contents = fs.readFileSync(ccpPath, "utf8");
+        const ccp = JSON.parse(contents);
+        connectionMaterial.ccp = ccp;
+        connectionMaterial.orgMSPID = 'TransporterOrgMSP';
+        const walletPath = path.join(
+            __dirname,
+            "fablo-network/scripts/wallet/transporter"
+        );
+        const wallet = await buildWallet(Wallets, walletPath);
+        connectionMaterial.wallet = wallet;
+    }
     return connectionMaterial;
 }
 
@@ -56,26 +106,22 @@ exports.connect = async (isAuditor, isTransporter, isFarmer, userID) => {
     const gateway = new Gateway();
 
     try {
-        const { walletPath, connection } = getConnectionMaterial(isFarmer, isAuditor, isTransporter);
-
-        const wallet = new FileSystemWallet(walletPath);
+        const { ccp, wallet } = getConnectionMaterial(isFarmer, isAuditor, isTransporter);
+        
         const userExists = await wallet.exists(userID);
         if (!userExists) {
             console.error(`An identity for the user ${userID} does not exist in the wallet. Register ${userID} first`);
             return { status: 401, error: 'User identity does not exist in the wallet.' };
         }
-
-        await gateway.connect(connection, {
-            wallet,
-            identity: userID,
-            discovery: { enabled: true, asLocalhost: Boolean(true) },
+        await gateway.connect(ccp, {
+            wallet: wallet,
+            identity: "admin",
+            discovery: { enabled: false, asLocalhost: true },
         });
-        const network = await gateway.getNetwork('mychannel');
-        const contract = await network.getContract('trackmeat-contract');
-        console.log('Connected to fabric network successly.');
 
+        const network = await gateway.getNetwork(myChannel);
+        const contract = network.getContract(myChaincodeName);
         const networkObj = { gateway, network, contract };
-
         return networkObj;
     } catch (err) {
         console.error(`Fail to connect network: ${err}`);
@@ -157,17 +203,5 @@ exports.registerUser = async (isFarmer, isAuditor, isTransporter, userID) => {
         return { status: 500, error: err.toString() };
     } finally {
         await gateway.disconnect();
-    }
-};
-
-exports.checkUserExists = async (isFarmer, isAuditor, isTransporter, userID) => {
-    try {
-        const { walletPath } = getConnectionMaterial(isFarmer, isAuditor, isTransporter);
-        const wallet = new FileSystemWallet(walletPath);
-        const userExists = await wallet.exists(userID);
-        return userExists;
-    } catch (err) {
-        console.error(`Failed to check user exists ${userID}: ${err}`);
-        return { status: 500, error: err.toString() };
     }
 };
