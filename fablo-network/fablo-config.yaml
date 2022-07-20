@@ -50,8 +50,8 @@ channels:
           - peer0
           - peer1
 chaincodes:
-  - name: and-policy-chaincode
+  - name: trackmeat
     version: 0.0.1
     lang: golang
-    channel: mychannel
+    channel: agridata
     directory: "../trackmeat"
