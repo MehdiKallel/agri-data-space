@@ -5,22 +5,6 @@ const { FileSystemWallet, Gateway, X509WalletMixin } = require('fabric-network')
 const myChannel = "mychannel";
 const myChaincodeName = "auction";
 
-const farmerCcpPath = path.join('/home/mehdi/agri-data-space/web-app/servers/fabric/connection-profile-farmerorg.json');
-const farmerCcpFile = fs.readFileSync(farmerCcpPath, 'utf8');
-const farmerCcp = JSON.parse(farmerCcpFile);
-
-const auditorCcpPath = path.join(
-    '/home/mehdi/agri-data-space/web-app/servers/fabric/connection-profile-auditororg.json',
-);
-const auditorCcpFile = fs.readFileSync(auditorCcpPath, 'utf8');
-const auditorCcp = JSON.parse(auditorCcpFile);
-
-const transporterCcpPath = path.join(
-    '/home/mehdi/agri-data-space/web-app/servers/fabric/connection-profile-transporterorg.json',
-);
-const transporterCcpFile = fs.readFileSync(transporterCcpPath, 'utf8');
-const transporterCcp = JSON.parse(transporterCcpFile);
-
 function getConnectionMaterial(isFarmer, isAuditor, isTransporter) {
     const connectionMaterial = {};
     if (isFarmer) {
