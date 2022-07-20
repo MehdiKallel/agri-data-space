@@ -1,12 +1,16 @@
 {
   "network-configs": {
-    "network-org1": {
-      "name": "Network of Org1",
-      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-org1.json"
+    "network-farmerorg": {
+      "name": "Network of FarmerOrg",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-farmerorg.json"
     },
-    "network-org2": {
-      "name": "Network of Org2",
-      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-org2.json"
+    "network-auditororg": {
+      "name": "Network of AuditorOrg",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-auditororg.json"
+    },
+    "network-transporterorg": {
+      "name": "Network of TransporterOrg",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile/connection-profile-transporterorg.json"
     }
   },
   "license": "Apache-2.0"
