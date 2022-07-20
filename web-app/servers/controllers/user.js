@@ -2,13 +2,14 @@ const authModel = require('../models/user.js');
 const apiResponse = require('../utils/apiResponse.js');
 
 exports.signup = async (req, res) => {
+    console.log('yessss');
     const { id, userType, address, name, email, password } = req.body;
     const { role } = req.params;
 
     console.log(req.body);
     console.log(role);
 
-    if ((!id || !userType || !address || !name  || !email || !password )) {
+    if (!id || !userType || !address || !name || !email || !password) {
         console.log('1');
         return apiResponse.badRequest(res);
     }
@@ -16,11 +17,32 @@ exports.signup = async (req, res) => {
     let modelRes;
 
     if (role === 'farmer') {
-        modelRes = await authModel.signup(true, false, false, {  id, userType, address, name, email, password });
+        modelRes = await authModel.signup(true, false, false, {
+            id,
+            userType,
+            address,
+            name,
+            email,
+            password,
+        });
     } else if (role === 'auditor') {
-        modelRes = await authModel.signup(false, true, false, {  id, userType, address, name, email, password });
+        modelRes = await authModel.signup(false, true, false, {
+            id,
+            userType,
+            address,
+            name,
+            email,
+            password,
+        });
     } else if (role === 'transporter') {
-        modelRes = await authModel.signup(false, false, true, {  id, userType, address, name, email, password });
+        modelRes = await authModel.signup(false, false, true, {
+            id,
+            userType,
+            address,
+            name,
+            email,
+            password,
+        });
     } else {
         return apiResponse.badRequest(res);
     }

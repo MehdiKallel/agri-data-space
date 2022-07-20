@@ -1,0 +1,42 @@
+global:
+  fabricVersion: 2.3.0
+  tls: false
+orgs:
+  - organization:
+      name: Orderer
+      domain: root.com
+    orderers:
+      - groupName: group1
+        prefix: orderer
+        type: solo
+        instances: 1 
+  - organization:
+      name: Org1
+      domain: org1.example.com
+      tools:
+        fabloRest: true
+        explorer: true
+    peer:
+      instances: 2
+  - organization:
+      name: Org2
+      domain: org2.example.com
+    peer:
+      instances: 1
+channels:
+  - name: mychannel
+    orgs:
+      - name: Org1
+        peers:
+          - peer0
+          - peer1
+      - name: Org2
+        peers:
+          - peer0
+chaincodes:
+  - name: and-policy-chaincode
+    version: 0.0.1
+    lang: golang
+    channel: mychannel
+    endorsement: AND('Org1MSP.member', 'Org2MSP.member')
+    directory: "../trackmeat"
