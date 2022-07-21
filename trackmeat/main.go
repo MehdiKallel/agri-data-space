@@ -4,6 +4,7 @@ import (
 	"agriculture-space/my-network/chaincode/trackmeat/lib"
 	"agriculture-space/my-network/chaincode/trackmeat/utils"
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
@@ -126,10 +127,17 @@ func (t *SimpleChaincode) createUser(stub shim.ChaincodeStubInterface, args []st
 	
 	user := lib.User{Name: name, Email: email, UserType: userType, Address: address, Identity: password}
 
+	objectBytes, errMarshal := json.Marshal(user)
+	if errMarshal != nil {
+		return shim.Error(fmt.Sprintf("Marshal Error in Product: %s", errMarshal))
+	}
+
 	if err := utils.WriteLedger(user, stub, lib.UserKey, []string{user.Name}); err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
-	return shim.Success(nil)
+
+	
+	return shim.Success(objectBytes)
 }
 
 
@@ -176,11 +184,14 @@ func (t *SimpleChaincode) registerMeat(stub shim.ChaincodeStubInterface, args []
 	}
 
 	meat := lib.Meat{MeatType: meatType, ProcDate: procDate, ShellLife: shellLife, FarmerMat: farmerMat, CountryOfOrigin: countryOfOrigin, Footprint: footprint, MeatMat: meatMat}
-
+	objectBytes, errMarshal := json.Marshal(meat)
+	if errMarshal != nil {
+		return shim.Error(fmt.Sprintf("Marshal Error in Product: %s", errMarshal))
+	}
 	if err := utils.WriteLedger(meat, stub, lib.MeatKey, []string{meat.MeatMat}); err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
-	return shim.Success(nil)
+	return shim.Success(objectBytes)
 }
 
 //method only used by transporter
@@ -228,8 +239,12 @@ func (t *SimpleChaincode) transitMeat(stub shim.ChaincodeStubInterface, args []s
 	}
 	// ==== Create package object ====
 	transit_package := lib.TransitPackage{TransporterMat: transporterMat, DepartureTime: depTime, ArrivalTime: arTime, TypeOfStorage: typeOfStorage, DepCoordinates: depCoordinates, DestCoordinates: destCoordinates, MeatMat: meatMat, StorageTime: storageTime, ShippingMethod: shippingMethod, Footprint: footprint, PackageReference: packageReference}
+	objectBytes, errMarshal := json.Marshal(transit_package)
+	if errMarshal != nil {
+		return shim.Error(fmt.Sprintf("Marshal Error in Product: %s", errMarshal))
+	}
 	if err := utils.WriteLedger(transit_package, stub, lib.TransitPackageKey, []string{transit_package.PackageReference}); err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
-	return shim.Success(nil)
+	return shim.Success(objectBytes)
 }
