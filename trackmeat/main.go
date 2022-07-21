@@ -3,6 +3,7 @@ package main
 import (
 	"agriculture-space/my-network/chaincode/trackmeat/lib"
 	"agriculture-space/my-network/chaincode/trackmeat/utils"
+	"bytes"
 	"fmt"
 	"strconv"
 	"strings"
@@ -41,11 +42,72 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 		return t.transitMeat(stub, args)
 	} else if function == "createUser" {
 		return t.createUser(stub, args)
+	} else if function == "queryUsers" {
+		return t.queryUsers(stub)
+	} else if function == "queryTransit" {
+		return t.queryTransit(stub)
+	} else if function == "queryMeat" {
+		return t.queryMeat(stub)
 	}
 	fmt.Println("invoke did not find func: " + function) //error
 	return shim.Error("Received unknown function invocation")
 }
+func (s *SimpleChaincode) queryUsers(APIstub shim.ChaincodeStubInterface) pb.Response {
+	return s.getAllAssets(APIstub, lib.UserKey)
+}
 
+func (s *SimpleChaincode) queryMeat(APIstub shim.ChaincodeStubInterface) pb.Response {
+	return s.getAllAssets(APIstub, lib.MeatKey)
+}
+
+func (s *SimpleChaincode) queryTransit(APIstub shim.ChaincodeStubInterface) pb.Response {
+	return s.getAllAssets(APIstub, lib.TransitPackageKey)
+}
+
+
+func (s *SimpleChaincode) getAllAssets(APIstub shim.ChaincodeStubInterface, indexName string) pb.Response {
+
+	allOrdersIterator, orgError := APIstub.GetStateByPartialCompositeKey(indexName, []string{})
+	if orgError != nil {
+		return shim.Error(orgError.Error())
+	}
+	defer allOrdersIterator.Close()
+
+	var UserBuffer bytes.Buffer
+	UserBuffer.WriteString("[")
+
+	UserArrayMemberAlreadyWritten := false
+	for allOrdersIterator.HasNext() {
+		UserQueryResponse, orgError1 := allOrdersIterator.Next()
+		if orgError1 != nil {
+			return shim.Error(orgError1.Error())
+		}
+
+		if UserArrayMemberAlreadyWritten == true {
+			UserBuffer.WriteString(",")
+		}
+
+		UserBuffer.WriteString("{\"Org\":")
+		UserBuffer.WriteString("\"")
+		_, orgKeyComp, orgKeyCompError := APIstub.SplitCompositeKey(UserQueryResponse.Key)
+		if orgKeyCompError != nil {
+			return shim.Error(orgKeyCompError.Error())
+		}
+
+		UserBuffer.WriteString(orgKeyComp[0])
+		UserBuffer.WriteString("\"")
+
+		UserBuffer.WriteString(", \"Details\":")
+		UserBuffer.WriteString(string(UserQueryResponse.Value))
+		UserBuffer.WriteString("}")
+		UserArrayMemberAlreadyWritten = true
+	}
+
+	UserBuffer.WriteString("]")
+
+	fmt.Printf(" - all Assets:\n%s\n", UserBuffer.String())
+	return shim.Success(UserBuffer.Bytes())
+}
 //method only used by farmer
 func (t *SimpleChaincode) createUser(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if len(args) != 5 {
@@ -127,7 +189,7 @@ func (t *SimpleChaincode) transitMeat(stub shim.ChaincodeStubInterface, args []s
 	//   	0        	1      		2      			3					4								5				  6						7					8
 	// "Dep time", 	"ar time", "type storage" 	"dep coordinates"	"destination coordinates"		"meat Mat"		"Storage time"		"Shipping method"		"CO2 Footprint"
 	if len(args) != 10 {
-		return shim.Error("Incorrect number of arguments. Expecting 7")
+		return shim.Error("Incorrect number of arguments. Expecting 10")
 	}
 	for i, s := range args {
 		if len(s) <= 0 {
@@ -136,7 +198,7 @@ func (t *SimpleChaincode) transitMeat(stub shim.ChaincodeStubInterface, args []s
 	}
 
 	msp, _ := cid.GetMSPID(stub)
-	if msp != "TransporterOrgMSP" {
+	if msp != "TransporterMSP" {
 		return shim.Error("Only transporters are allowed to create transit records")
 	}
 
@@ -164,7 +226,6 @@ func (t *SimpleChaincode) transitMeat(stub shim.ChaincodeStubInterface, args []s
 	if err != nil || len(results) != 1 {
 		return shim.Error(fmt.Sprintf("The meat reference verification failed %s", err))
 	}
-
 	// ==== Create package object ====
 	transit_package := lib.TransitPackage{TransporterMat: transporterMat, DepartureTime: depTime, ArrivalTime: arTime, TypeOfStorage: typeOfStorage, DepCoordinates: depCoordinates, DestCoordinates: destCoordinates, MeatMat: meatMat, StorageTime: storageTime, ShippingMethod: shippingMethod, Footprint: footprint, PackageReference: packageReference}
 	if err := utils.WriteLedger(transit_package, stub, lib.TransitPackageKey, []string{transit_package.PackageReference}); err != nil {
