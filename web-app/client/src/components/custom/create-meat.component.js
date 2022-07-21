@@ -92,7 +92,7 @@ export class CreateMeat extends Component {
     console.log(meat);
 
     axios
-      .post("http://192.168.0.108:8090/user/meat/" + this.state.role, meat, {
+      .post("http://localhost:8090/user/meat/" + this.state.role, meat, {
         headers: headers,
       })
       .then((res) => console.log(res));
