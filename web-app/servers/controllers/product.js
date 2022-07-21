@@ -3,26 +3,37 @@ const apiResponse = require('../utils/apiResponse.js');
 //   0       		1      		2      			3					4					5					6
 // "Type", "Processing date", "Shell life" 	"Farmer mat"	Country of origin	"CO2 Footprint"			"MeatMat"
 exports.registerMeat = async (req, res) => {
-    const { Type, ProcDate, ShellLife, Farmer, CountryOrigin, Footprint, MeatMat, loggedUserType } = req.body;
-    console.log('1');
+    const {
+      MeatType,
+      ShellLife,
+      ProcDate,
+      CountryOfOrigin,
+      Footprint,
+      MeatMat,
+      FarmerMat,
+    } = req.body;
+    console.log("1");
+    console.log(ShellLife);
 
-    if (!Type || !ProcDate || !ShellLife || !Farmer || !CountryOrigin || !Footprint || !MeatMat) {
-        return apiResponse.badRequest(res);
+    if (
+      !MeatType ||
+      !ShellLife ||
+      !ProcDate ||
+      !CountryOfOrigin ||
+      !Footprint ||
+      !MeatMat ||
+      !FarmerMat
+    ) {
+      return apiResponse.badRequest(res);
     }
-    console.log('2');
-
-    if (loggedUserType !== 'farmer') {
-        return apiResponse.badRequest(res);
-    }
-    console.log('3');
-
     const modelRes = await productModel.registerMeat({
-        type,
-        procDate,
-        shellLife,
-        countryOfOrigin,
-        co2FootPrint,
-        meatMat,
+      MeatType,
+      ShellLife,
+      ProcDate,
+      CountryOfOrigin,
+      Footprint,
+      MeatMat,
+      FarmerMat,
     });
     return apiResponse.send(res, modelRes);
 };

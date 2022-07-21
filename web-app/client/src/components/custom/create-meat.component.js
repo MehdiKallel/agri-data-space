@@ -16,20 +16,25 @@ export class CreateMeat extends Component {
 
     this.onSubmit = this.onSubmit.bind(this);
 
-    this.fields = [      "MeatType",  "ShellLife",  "ProcDate",  "FarmerMat",  "CountryOfOrigin",  "Footprint",  "MeatMat",]
+    this.fields = [
+      "MeatType",
+      "ShellLife",
+      "ProcDate",
+      "CountryOfOrigin",
+      "Footprint",
+      "MeatMat",
+      "FarmerMat",
+    ];
     this.fieldTypes = {
-      ShellLife: 'number'
-    }
+      ShellLife: "number",
+    };
 
-    this.fields.forEach(o => {
+    this.fields.forEach((o) => {
       if (this.fieldTypes[o] == null) {
-        this.fieldTypes[o] = 'text'
+        this.fieldTypes[o] = "text";
       }
-    })
-
-
+    });
     this.state = this.fields.map((o) => [o, ""]);
-
 
   }
 
@@ -73,34 +78,27 @@ export class CreateMeat extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    const meat = this.fields.map(o => [o, this.state[o]])
+    //const meat = this.fields.map(o => [o, this.state[o]])
 
-    // const meat = {
-    //   MeatType: this.state.MeatType,
-    //   ShellLife: this.state.ShellLife,
-    //   ProcDate: this.state.ProcDate,
-    //   FarmerMat: this.state.FarmerMat,
-    //   CountryOfOrigin: this.state.CountryOfOrigin,
-    //   Footprint: this.state.Footprint,
-    //   MeatMat: this.state.MeatMat,
-    // };
-
-    const headers = {
-      "x-access-token": sessionStorage.getItem("jwtToken"),
+    const meat = {
+      MeatType: this.state.MeatType,
+      ShellLife: this.state.ShellLife,
+      ProcDate: this.state.ProcDate,
+      FarmerMat: this.state.FarmerMat,
+      CountryOfOrigin: this.state.CountryOfOrigin,
+      Footprint: this.state.Footprint,
+      MeatMat: this.state.MeatMat,
     };
 
     console.log(meat);
 
     axios
-      .post("http://localhost:8090/user/meat/" + this.state.role, meat, {
-        headers: headers,
-      })
+      .post("http://localhost:8090/meat/register", meat)
       .then((res) => console.log(res));
 
     this.setState({
-        user_id: meat.user_id,
+      user_id: meat.user_id,
     });
-
   }
 
   render() {

@@ -24,7 +24,7 @@ type TransitPackage struct {
 type Meat struct {
 	ObjectType      string `json:"docType"`
 	MeatType        string `json:"meatType"`
-	ShellLife       string `json:"shellLife"`
+	ShellLife       int `json:"shellLife"`
 	ProcDate        string `json:"procDate"`
 	FarmerMat       string `json:"farmerMat"`
 	CountryOfOrigin string `json:"countryOfOrigin"`
@@ -38,5 +38,5 @@ type User struct {
 	Email      string `json:"email"`
 	UserType   string `json:"userType"`
 	Address    string `json:"address"`
-	Password   string `json:"password"`
+	Identity   string `json:"identity"`
 }

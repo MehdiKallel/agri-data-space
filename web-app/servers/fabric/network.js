@@ -105,7 +105,7 @@ exports.connect = async (isFarmer, isAuditor, isTransporter, userID) => {
 
     await gateway.connect(material.ccp, {
       wallet: material.wallet,
-      identity: identity,
+      identity: userID,
       discovery: { enabled: true, asLocalhost: true },
     });
 

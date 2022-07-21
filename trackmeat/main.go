@@ -48,8 +48,6 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 
 //method only used by farmer
 func (t *SimpleChaincode) createUser(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	var err error
-
 	if len(args) != 5 {
 		return shim.Error("Incorrect number of arguments. Expecting 7")
 	}
@@ -58,36 +56,15 @@ func (t *SimpleChaincode) createUser(stub shim.ChaincodeStubInterface, args []st
 			return shim.Error("argument " + strconv.Itoa(i) + " must be a non-empty string")
 		}
 	}
-	msp, _ := cid.GetMSPID(stub)
-	if msp != "FarmerOrgMSP" {
-		return shim.Error("Only Farmers are allowed to register meat products")
-	}
-	meatType := args[0]
-	procDate := strings.ToLower(args[1])
-	shellLife, err := strconv.Atoi(args[2])
-	if err != nil {
-		return shim.Error("3rd argument must be a numeric string")
-	}
-	countryOfOrigin := strings.ToLower(args[4])
-	footprint := strings.ToLower(args[5])
-	meatMat := strings.ToLower(args[3])
+	name := args[0]
+	email := strings.ToLower(args[1])
+	userType := strings.ToLower(args[2])
+	address := strings.ToLower(args[3])
+	password := strings.ToLower(args[4])
+	
+	user := lib.User{Name: name, Email: email, UserType: userType, Address: address, Identity: password}
 
-	farmerMat, err := cid.GetID(stub)
-	if err != nil {
-		return shim.Error("Failed to get Farmer identity: " + err.Error())
-	}
-
-	meatAsBytes, err := stub.GetState(meatMat)
-	if err != nil {
-		return shim.Error("Failed to get meat: " + err.Error())
-	} else if meatAsBytes != nil {
-		fmt.Println("This meat already exists: " + meatMat)
-		return shim.Error("This meat already exists: " + meatMat)
-	}
-
-	meat := lib.Meat{MeatType: meatType, ProcDate: procDate, ShellLife: shellLife, FarmerMat: farmerMat, CountryOfOrigin: countryOfOrigin, Footprint: footprint, MeatMat: meatMat}
-
-	if err := utils.WriteLedger(meat, stub, lib.MeatKey, []string{meat.MeatMat}); err != nil {
+	if err := utils.WriteLedger(user, stub, lib.UserKey, []string{user.Name}); err != nil {
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
 	return shim.Success(nil)
@@ -101,7 +78,7 @@ func (t *SimpleChaincode) registerMeat(stub shim.ChaincodeStubInterface, args []
 
 	//   0       		1      		2      			3					4					5
 	// "Type", "Processing date", "Shell life" 	"Meat mat"		Country of origin	"CO2 Footprint"
-	if len(args) != 6 {
+	if len(args) != 7 {
 		return shim.Error("Incorrect number of arguments. Expecting 7")
 	}
 	for i, s := range args {
@@ -110,7 +87,7 @@ func (t *SimpleChaincode) registerMeat(stub shim.ChaincodeStubInterface, args []
 		}
 	}
 	msp, _ := cid.GetMSPID(stub)
-	if msp != "FarmerOrgMSP" {
+	if msp != "FarmerMSP" {
 		return shim.Error("Only Farmers are allowed to register meat products")
 	}
 	meatType := args[0]

@@ -1,12 +1,7 @@
 const productRouter = require('express').Router();
-const controller = require('../controllers/product.js');
-const authMiddleware = require('../middlewares/auth.js');
-const roleMiddleware = require('../middlewares/checkRole.js');
+const controller = require("../controllers/product.js");
 
-productRouter.use('/', authMiddleware);
-productRouter.use('/delivered', authMiddleware);
-
-productRouter.post('/', controller.registerMeat);
+productRouter.post("/register", controller.registerMeat);
 productRouter.get('/:role', controller.getAllMeat);
 
 module.exports = productRouter;

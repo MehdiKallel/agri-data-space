@@ -58,8 +58,7 @@ exports.buildCCPTransporter = () => {
   console.log(`Loaded the network configuration located at ${ccpPath}`);
   return ccp;
 };
-/home/mehdi / agri - data - space / fablo - network / fablo - target / fabric - config / connection - profiles / connection - profile - auditor.json
-/home/mehdi/agri-data-space/fablo-network/scripts/test-application/javascript/AppUtil.js
+
 exports.buildCCPFarmer = () => {
   // load the common connection configuration file
   const ccpPath = path.resolve(

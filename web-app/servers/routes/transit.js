@@ -1,7 +1,6 @@
 const transitRouter = require('express').Router();
 const controller = require('../controllers/transit.js');
 const authMiddleware = require('../middlewares/auth.js');
-const roleMiddleware = require('../middlewares/checkRole.js');
 
 transitRouter.use('/', authMiddleware);
 transitRouter.use('/delivered', authMiddleware);
