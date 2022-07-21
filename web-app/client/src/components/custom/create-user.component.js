@@ -75,22 +75,12 @@ export class CreateUser extends Component {
       address: this.state.address,
       password: this.state.password,
     };
-
-    const headers = {
-      "x-access-token": sessionStorage.getItem("jwtToken"),
-    };
-
     console.log(user);
 
     axios
-      .post("http://localhost:8090/user/signup/" + this.state.userType, user, {
-        headers: headers,
-      })
+      .post("http://localhost:8090/user/signup/" + this.state.userType, user)
       .then((res) => console.log(res));
 
-    this.setState({
-      user_id: user.user_id,
-    });
 
     window.location = "/users";
   }

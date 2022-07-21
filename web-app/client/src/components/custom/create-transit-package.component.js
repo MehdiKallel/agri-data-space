@@ -100,7 +100,7 @@ export class CreateTransitPackage  extends Component {
       DepCoordinates: this.state.DepCoordinates,
       DestCoordinates: this.state.DestCoordinates,
       MeatMat: this.state.MeatMat,
-      StorageTime: this.state.StorageTime.getThis(),
+      StorageTime: this.state.StorageTime,
       ShippingMethod: this.state.ShippingMethod,
       Footprint: this.state.Footprint,
       TransporterMat: this.state.TransporterMat,
