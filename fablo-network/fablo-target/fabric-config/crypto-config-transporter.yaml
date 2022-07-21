@@ -1,6 +1,6 @@
 PeerOrgs:
-  - Name: AuditorOrg
-    Domain: auditor.example.com
+  - Name: Transporter
+    Domain: transporter.example.com
     Specs:
     Template:
       Count: 2

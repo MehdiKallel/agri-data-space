@@ -1,6 +1,6 @@
 global:
   fabricVersion: 2.3.0
-  tls: false
+  tls: true
 orgs:
   - organization:
       name: Orderer
@@ -11,7 +11,7 @@ orgs:
         type: solo
         instances: 1 
   - organization:
-      name: FarmerOrg
+      name: Farmer
       domain: farmer.example.com
       tools:
         fabloRest: true
@@ -19,7 +19,7 @@ orgs:
     peer:
       instances: 2
   - organization:
-      name: AuditorOrg
+      name: Auditor
       domain: auditor.example.com
       tools:
         fabloRest: true
@@ -27,7 +27,7 @@ orgs:
     peer:
       instances: 2
   - organization:
-      name: TransporterOrg
+      name: Transporter
       domain: transporter.example.com
       tools:
         fabloRest: true
@@ -35,17 +35,17 @@ orgs:
     peer:
       instances: 2
 channels:
-  - name: mychannel
+  - name: agridata
     orgs:
-      - name: FarmerOrg
+      - name: Farmer
         peers:
           - peer0
           - peer1
-      - name: AuditorOrg
+      - name: Auditor
         peers:
           - peer0
           - peer1
-      - name: TransporterOrg
+      - name: Transporter
         peers:
           - peer0
           - peer1

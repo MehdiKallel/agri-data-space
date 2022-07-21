@@ -51,24 +51,24 @@ Organizations:
 
       AnchorPeers:
 
-    - &FarmerOrg
-      Name: FarmerOrgMSP
-      ID: FarmerOrgMSP
+    - &Farmer
+      Name: FarmerMSP
+      ID: FarmerMSP
       MSPDir: crypto-config/peerOrganizations/farmer.example.com/msp
 
       Policies:
           Readers:
               Type: Signature
-              Rule: "OR('FarmerOrgMSP.member')"
+              Rule: "OR('FarmerMSP.member')"
           Writers:
               Type: Signature
-              Rule: "OR('FarmerOrgMSP.member')"
+              Rule: "OR('FarmerMSP.member')"
           Admins:
               Type: Signature
-              Rule: "OR('FarmerOrgMSP.admin')"
+              Rule: "OR('FarmerMSP.admin')"
           Endorsement:
               Type: Signature
-              Rule: "OR('FarmerOrgMSP.member')"
+              Rule: "OR('FarmerMSP.member')"
 
       AnchorPeers:
           - Host: peer0.farmer.example.com
@@ -77,24 +77,24 @@ Organizations:
           - Host: peer1.farmer.example.com
             Port: 7042
 
-    - &AuditorOrg
-      Name: AuditorOrgMSP
-      ID: AuditorOrgMSP
+    - &Auditor
+      Name: AuditorMSP
+      ID: AuditorMSP
       MSPDir: crypto-config/peerOrganizations/auditor.example.com/msp
 
       Policies:
           Readers:
               Type: Signature
-              Rule: "OR('AuditorOrgMSP.member')"
+              Rule: "OR('AuditorMSP.member')"
           Writers:
               Type: Signature
-              Rule: "OR('AuditorOrgMSP.member')"
+              Rule: "OR('AuditorMSP.member')"
           Admins:
               Type: Signature
-              Rule: "OR('AuditorOrgMSP.admin')"
+              Rule: "OR('AuditorMSP.admin')"
           Endorsement:
               Type: Signature
-              Rule: "OR('AuditorOrgMSP.member')"
+              Rule: "OR('AuditorMSP.member')"
 
       AnchorPeers:
           - Host: peer0.auditor.example.com
@@ -103,24 +103,24 @@ Organizations:
           - Host: peer1.auditor.example.com
             Port: 7062
 
-    - &TransporterOrg
-      Name: TransporterOrgMSP
-      ID: TransporterOrgMSP
+    - &Transporter
+      Name: TransporterMSP
+      ID: TransporterMSP
       MSPDir: crypto-config/peerOrganizations/transporter.example.com/msp
 
       Policies:
           Readers:
               Type: Signature
-              Rule: "OR('TransporterOrgMSP.member')"
+              Rule: "OR('TransporterMSP.member')"
           Writers:
               Type: Signature
-              Rule: "OR('TransporterOrgMSP.member')"
+              Rule: "OR('TransporterMSP.member')"
           Admins:
               Type: Signature
-              Rule: "OR('TransporterOrgMSP.admin')"
+              Rule: "OR('TransporterMSP.admin')"
           Endorsement:
               Type: Signature
-              Rule: "OR('TransporterOrgMSP.member')"
+              Rule: "OR('TransporterMSP.member')"
 
       AnchorPeers:
           - Host: peer0.transporter.example.com
@@ -206,12 +206,12 @@ Profiles:
             SampleConsortium:
                 Organizations:
                     - *Orderer
-                    - *FarmerOrg
-                    - *AuditorOrg
-                    - *TransporterOrg
+                    - *Farmer
+                    - *Auditor
+                    - *Transporter
 
-    # Profile used to create channeltx for mychannel #
-    Mychannel:
+    # Profile used to create channeltx for agridata #
+    Agridata:
         <<: *ChannelDefaults
         Orderer:
             <<: *Group1Defaults
@@ -223,12 +223,12 @@ Profiles:
         Consortiums:
             SampleConsortium:
                 Organizations:
-                    - *FarmerOrg
-                    - *AuditorOrg
-                    - *TransporterOrg
+                    - *Farmer
+                    - *Auditor
+                    - *Transporter
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *FarmerOrg
-                - *AuditorOrg
-                - *TransporterOrg
+                - *Farmer
+                - *Auditor
+                - *Transporter

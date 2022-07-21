@@ -19,7 +19,7 @@ exports.buildCCPAuditor = () => {
     "fablo-target",
     "fabric-config",
     "connection-profiles",
-    "connection-profile-auditororg.json"
+    "connection-profile-auditor.json"
   );
   const fileExists = fs.existsSync(ccpPath);
   if (!fileExists) {
@@ -44,7 +44,7 @@ exports.buildCCPTransporter = () => {
     "fablo-target",
     "fabric-config",
     "connection-profiles",
-    "connection-profile-transporterorg.json"
+    "connection-profile-transporter.json"
   );
   const fileExists = fs.existsSync(ccpPath);
   if (!fileExists) {
@@ -58,7 +58,8 @@ exports.buildCCPTransporter = () => {
   console.log(`Loaded the network configuration located at ${ccpPath}`);
   return ccp;
 };
-
+/home/mehdi / agri - data - space / fablo - network / fablo - target / fabric - config / connection - profiles / connection - profile - auditor.json
+/home/mehdi/agri-data-space/fablo-network/scripts/test-application/javascript/AppUtil.js
 exports.buildCCPFarmer = () => {
   // load the common connection configuration file
   const ccpPath = path.resolve(
@@ -69,7 +70,7 @@ exports.buildCCPFarmer = () => {
     "fablo-target",
     "fabric-config",
     "connection-profiles",
-    "connection-profile-farmerorg.json"
+    "connection-profile-farmer.json"
   );
   const fileExists = fs.existsSync(ccpPath);
   if (!fileExists) {

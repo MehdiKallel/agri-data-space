@@ -1,5 +1,5 @@
 PeerOrgs:
-  - Name: FarmerOrg
+  - Name: Farmer
     Domain: farmer.example.com
     Specs:
     Template:

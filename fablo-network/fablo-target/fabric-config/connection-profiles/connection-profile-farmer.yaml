@@ -1,11 +1,11 @@
-name: fablo-test-network-orderer
-description: Connection profile for Orderer in Fablo network
+name: fablo-test-network-farmer
+description: Connection profile for Farmer in Fablo network
 version: 1.0.0
 client:
-  organization: Orderer
+  organization: Farmer
 organizations:
-  Orderer:
-    mspid: OrdererMSP
+  Farmer:
+    mspid: FarmerMSP
     peers:
       - peer0.farmer.example.com
       - peer1.farmer.example.com
@@ -14,7 +14,7 @@ organizations:
       - peer0.transporter.example.com
       - peer1.transporter.example.com
     certificateAuthorities:
-      - ca.root.com
+      - ca.farmer.example.com
 peers:
   peer0.farmer.example.com:
     url: grpcs://localhost:7041
@@ -59,11 +59,11 @@ peers:
     grpcOptions:
       ssl-target-name-override: peer1.transporter.example.com
 certificateAuthorities:
-  ca.root.com:
-    url: http://localhost:7020
-    caName: ca.root.com
+  ca.farmer.example.com:
+    url: http://localhost:7040
+    caName: ca.farmer.example.com
     tlsCACerts:
       path: >-
-        /home/mehdi/agri-data-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/root.com/ca/ca.root.com-cert.pem
+        /home/mehdi/agri-data-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/farmer.example.com/ca/ca.farmer.example.com-cert.pem
     httpOptions:
       verify: false

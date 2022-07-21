@@ -20,9 +20,9 @@ const {
   buildCCPTransporter,
 } = require("./test-application/javascript/AppUtil.js");
 
-const mspFarmer = "FarmerOrg";
-const mspAuditor = "AuditorOrg";
-const mspTransporter = "TransporterOrg";
+const mspFarmer = "FarmerMSP";
+const mspAuditor = "AuditorMSP";
+const mspTransporter = "TransporterMSP";
 
 function prettyJSONString(inputString) {
   if (inputString) {

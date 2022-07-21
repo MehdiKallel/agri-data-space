@@ -1,13 +1,13 @@
 {
-  "name": "fablo-test-network-orderer",
-  "description": "Connection profile for Orderer in Fablo network",
+  "name": "fablo-test-network-transporter",
+  "description": "Connection profile for Transporter in Fablo network",
   "version": "1.0.0",
   "client": {
-    "organization": "Orderer"
+    "organization": "Transporter"
   },
   "organizations": {
-    "Orderer": {
-      "mspid": "OrdererMSP",
+    "Transporter": {
+      "mspid": "TransporterMSP",
       "peers": [
         "peer0.farmer.example.com",
         "peer1.farmer.example.com",
@@ -17,7 +17,7 @@
         "peer1.transporter.example.com"
       ],
       "certificateAuthorities": [
-        "ca.root.com"
+        "ca.transporter.example.com"
       ]
     }
   },
@@ -78,11 +78,11 @@
     }
   },
   "certificateAuthorities": {
-    "ca.root.com": {
-      "url": "http://localhost:7020",
-      "caName": "ca.root.com",
+    "ca.transporter.example.com": {
+      "url": "http://localhost:7080",
+      "caName": "ca.transporter.example.com",
       "tlsCACerts": {
-        "path": "/home/mehdi/agri-data-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/root.com/ca/ca.root.com-cert.pem"
+        "path": "/home/mehdi/agri-data-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/transporter.example.com/ca/ca.transporter.example.com-cert.pem"
       },
       "httpOptions": {
         "verify": false
