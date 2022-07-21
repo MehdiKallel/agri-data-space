@@ -5,6 +5,7 @@ export class CreateTransitPackage  extends Component {
   constructor(props) {
     super(props);
 
+    this.onChangeIdentity =this.onChangeIdentity.bind(this)
     this.onChangeDepartureTime =this.onChangeDepartureTime.bind(this)
     this.onChangeArrivalTime =this.onChangeArrivalTime.bind(this)
     this.onChangeTypeOfStorage =this.onChangeTypeOfStorage.bind(this)
@@ -20,6 +21,7 @@ export class CreateTransitPackage  extends Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
+      Identity: "",
       DepartureTime: "",
       ArrivalTime: "",
       TypeOfStorage: "",
@@ -32,6 +34,12 @@ export class CreateTransitPackage  extends Component {
       TransporterMat: "",
       PackageReference: "",
     };
+  }
+
+  onChangeIdentity(e) {
+    this.setState({
+      Identity: e.target.value,
+    });
   }
 
   onChangeDepartureTime(e) {
@@ -94,6 +102,7 @@ export class CreateTransitPackage  extends Component {
     e.preventDefault();
 
     const TransitPackage = {
+      Identity: this.state.Identity,
       DepartureTime: this.state.DepartureTime,
       ArrivalTime: this.state.ArrivalTime,
       TypeOfStorage: this.state.TypeOfStorage,
@@ -136,6 +145,16 @@ export class CreateTransitPackage  extends Component {
         <h3>Create New Transit Package</h3>
         <form onSubmit={this.onSubmit}>
 
+          <div className="form-group">
+            <label>Identity: </label>
+            <input
+              type="text"
+              required
+              className="form-control"
+              value={this.state.Identity}
+              onChange={this.onChangeIdentity}
+            />
+          </div>
           <div className="form-group">
             <label>DepartureTime: </label>
             <input
