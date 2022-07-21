@@ -2,55 +2,38 @@ const productModel = require('../models/transit.js');
 const apiResponse = require('../utils/apiResponse.js');
 
 exports.createTransit = async (req, res) => {
-    const {
-        arrivalTime,
-        typeOfStorage,
-        depCoordinates,
-        destCoordinates,
-        meatMat,
-        storageTime,
-        shippingMethod,
-        transporterMat,
-        footprint,
-        status,
-    } = req.body;
-    const { Type, ProcDate, ShellLife, Farmer, CountryOrigin, Footprint, MeatMat, loggedUserType } = req.body;
-    console.log('1');
+  const {
+    Identity,
+    DepartureTime,
+    ArrivalTime,
+    TypeOfStorage,
+    DepCoordinates,
+    DestCoordinates,
+    MeatMat,
+    StorageTime,
+    ShippingMethod,
+    Footprint,
+    TransporterMat,
+    PackageReference,
+  } = req.body;
 
-    if (
-        (!arrivalTime,
-        !typeOfStorage,
-        !depCoordinates,
-        !destCoordinates,
-        !meatMat,
-        !storageTime,
-        !shippingMethod,
-        !transporterMat,
-        !footprint,
-        !status)
-    ) {
-        return apiResponse.badRequest(res);
-    }
-    console.log('2');
+  console.log("1");
 
-    if (loggedUserType !== 'Transporter') {
-        return apiResponse.badRequest(res);
-    }
-    console.log('3');
-
-    const modelRes = await productModel.createTransit({
-        arrivalTime,
-        typeOfStorage,
-        depCoordinates,
-        destCoordinates,
-        meatMat,
-        storageTime,
-        shippingMethod,
-        transporterMat,
-        footprint,
-        status,
-    });
-    return apiResponse.send(res, modelRes);
+  const modelRes = await productModel.createTransit({
+    Identity,
+    DepartureTime,
+    ArrivalTime,
+    TypeOfStorage,
+    DepCoordinates,
+    DestCoordinates,
+    MeatMat,
+    StorageTime,
+    ShippingMethod,
+    Footprint,
+    TransporterMat,
+    PackageReference,
+  });
+  return apiResponse.send(res, modelRes);
 };
 
 exports.getAllTransit = async (req, res) => {

@@ -5,6 +5,7 @@ const authenticateUtil = require('../utils/authenticate.js');
 
 exports.signup = async (isFarmer, isAuditor, isTransporter, information) => {
   const { name, email, userType, address, password } = information;
+
   let networkObj;
   networkObj = await network.connect(
     isFarmer,
@@ -58,12 +59,10 @@ exports.signin = async (isFarmer, isAuditor, isTransporter, information) => {
   });
 };
 
-exports.getAllUser = async (information) => {
-  const { id } = information;
+exports.getAllUser = async () => {
+  const networkObj = await network.connect(false, false, true, "admin");
 
-  const networkObj = await network.connect(false, false, true, id);
-
-  const contractRes = await network.invoke(networkObj, "queryAll");
+  const contractRes = await network.invoke(networkObj, "queryUsers");
 
   const error = networkObj.error || contractRes.error;
   if (error) {

@@ -1,28 +1,28 @@
 const network = require('../fabric/network.js');
 const apiResponse = require('../utils/apiResponse.js');
-
+const identity = "admin";
 
 exports.registerMeat = async (information) => {
   const {
     MeatType,
-    ShellLife,
     ProcDate,
+    ShellLife,
     CountryOfOrigin,
     Footprint,
     meatMat,
     FarmerMat,
   } = information;
 
-  const networkObj = await network.connect(true, false, false, "admin");
+  const networkObj = await network.connect(true, false, false, identity);
   const contractRes = await network.invoke(
     networkObj,
     "registerMeat",
     MeatType,
-    ShellLife,
     ProcDate,
+    ShellLife,
+    meatMat,
     CountryOfOrigin,
     Footprint,
-    meatMat,
     FarmerMat
   );
   console.log(contractRes);

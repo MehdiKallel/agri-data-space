@@ -115,28 +115,16 @@ export class CreateTransitPackage  extends Component {
       TransporterMat: this.state.TransporterMat,
       PackageReference: this.state.PackageReference,
     };
-
-    const headers = {
-      "x-access-token": sessionStorage.getItem("jwtToken"),
-    };
-
     console.log(TransitPackage);
 
     axios
-      .post(
-        "http://localhost/user/transitPackage/" + this.state.role,
-        TransitPackage,
-        {
-          headers: headers,
-        }
-      )
+      .post("http://localhost:8090/transit/create", TransitPackage)
       .then((res) => console.log(res));
 
     this.setState({
-        user_id: TransitPackage.user_id,
+      user_id: TransitPackage.user_id,
     });
 
-    window.location = "/users";
   }
 
   render() {
@@ -144,7 +132,6 @@ export class CreateTransitPackage  extends Component {
       <div>
         <h3>Create New Transit Package</h3>
         <form onSubmit={this.onSubmit}>
-
           <div className="form-group">
             <label>Identity: </label>
             <input
@@ -218,7 +205,7 @@ export class CreateTransitPackage  extends Component {
           <div className="form-group">
             <label>StorageTime: </label>
             <input
-              type="datetime-local"
+              type="text"
               required
               className="form-control"
               value={this.state.StorageTime}

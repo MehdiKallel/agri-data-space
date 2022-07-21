@@ -1,10 +1,6 @@
 const transitRouter = require('express').Router();
-const controller = require('../controllers/transit.js');
-const authMiddleware = require('../middlewares/auth.js');
+const controller = require("../controllers/transit.js");
 
-transitRouter.use('/', authMiddleware);
-transitRouter.use('/delivered', authMiddleware);
-transitRouter.post('/', controller.createTransit);
-transitRouter.get('/:role', controller.getAllTransit);
+transitRouter.post("/create", controller.createTransit);
 
 module.exports = transitRouter;

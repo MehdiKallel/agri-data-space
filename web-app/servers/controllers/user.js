@@ -46,40 +46,10 @@ exports.signup = async (req, res) => {
   return apiResponse.send(res, modelRes);
 };
 
-exports.signin = async (req, res) => {
-  const { id, password } = req.body;
-  const { role } = req.params;
-  if (!id || !password || !role) {
-    return apiResponse.badRequest(res);
-  }
-
-  let modelRes;
-  if (role === "farmer") {
-    modelRes = await authModel.signin(true, false, false, { id, password });
-  } else if (role === "auditor") {
-    modelRes = await authModel.signin(false, true, false, { id, password });
-  } else if (role === "transporter") {
-    modelRes = await authModel.signin(false, false, true, { id, password });
-  } else {
-    return apiResponse.badRequest(res);
-  }
-
-  return apiResponse.send(res, modelRes);
-};
 
 exports.getAllUser = async (req, res) => {
-  const { id } = req.body;
-  const { role } = req.params;
-
   let modelRes;
-  if (role === "farmer") {
-    modelRes = await authModel.getAllUser(true, false, false, id);
-  } else if (role === "auditor") {
-    modelRes = await authModel.getAllUser(false, true, false, id);
-  } else if (role === "transporter") {
-    modelRes = await authModel.getAllUser(false, false, true, id);
-  } else {
-    return apiResponse.badRequest(res);
-  }
+  modelRes = await authModel.getAllUser(true, false, false);
+
   return apiResponse.send(res, modelRes);
 };
