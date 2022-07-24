@@ -4,16 +4,15 @@ const apiResponse = require('../utils/apiResponse.js');
 // "Type", "Processing date", "Shell life" 	"Farmer mat"	Country of origin	"CO2 Footprint"			"MeatMat"
 exports.registerMeat = async (req, res) => {
     const {
-      MeatType,
-      ShellLife,
-      ProcDate,
-      CountryOfOrigin,
-      Footprint,
-      MeatMat,
-      FarmerMat,
+        MeatType,
+        ShellLife,
+        ProcDate,
+        FarmerMat,
+        CountryOfOrigin,
+        Footprint,
+        MeatMat,
     } = req.body;
     console.log("1");
-    console.log(ShellLife);
 
     if (
       !MeatType ||
@@ -28,12 +27,11 @@ exports.registerMeat = async (req, res) => {
     }
     const modelRes = await productModel.registerMeat({
       MeatType,
-      ShellLife,
-      ProcDate,
-      CountryOfOrigin,
-      Footprint,
-      MeatMat,
-      FarmerMat,
+        ShellLife,
+        FarmerMat,
+        CountryOfOrigin,
+        Footprint,
+        MeatMat,
     });
     return apiResponse.send(res, modelRes);
 };
@@ -63,24 +61,8 @@ exports.getMeatById = async (req, res) => {
 };
 
 exports.getAllMeat = async (req, res) => {
-    const { id } = req.body;
-    const { role } = req.params;
-    console.log('1');
+  let modelRes;
+  modelRes = await productModel.getAllMeatFromFarmer(true, false, false);
 
-    if (!id || !role) {
-        return apiResponse.badRequest(res);
-    }
-
-    let modelRes;
-    if (role === 'farmer') {
-        modelRes = await productModel.getAllMeatFromFarmer(true, false, false, { id });
-    } else if (role === 'auditor') {
-        modelRes = await productModel.getAllMeatFromFarmer(false, true, false, { id });
-    } else if (role === 'transporter') {
-        modelRes = await productModel.getAllMeatFromFarmer(false, false, true, { id });
-    } else {
-        return apiResponse.badRequest(res);
-    }
-    return apiResponse.send(res, modelRes);
+  return apiResponse.send(res, modelRes);
 };
-

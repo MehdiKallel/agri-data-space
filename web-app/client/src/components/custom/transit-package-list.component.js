@@ -4,18 +4,16 @@ import axios from "axios";
 
 const TransitPackage = (props) => (
   <tr>
-
-    <td>{props.transitPackage.DepartureTime}</td>
-    <td>{props.transitPackage.ArrivalTime}</td>
-    <td>{props.transitPackage.TypeOfStorage}</td>
-    <td>{props.transitPackage.DepCoordinates}</td>
-    <td>{props.transitPackage.DestCoordinates}</td>
-    <td>{props.transitPackage.MeatMat}</td>
-    <td>{props.transitPackage.StorageTime}</td>
-    <td>{props.transitPackage.ShippingMethod}</td>
-    <td>{props.transitPackage.Footprint}</td>
-    <td>{props.transitPackage.TransporterMat}</td>
-    <td>{props.transitPackage.PackageReference}</td>
+    <td>{props.transitPackage.departureTime}</td>
+    <td>{props.transitPackage.arrivalTime}</td>
+    <td>{props.transitPackage.typeOfStorage}</td>
+    <td>{props.transitPackage.depCoordinates}</td>
+    <td>{props.transitPackage.destCoordinates}</td>
+    <td>{props.transitPackage.meatMat}</td>
+    <td>{props.transitPackage.storageTime}</td>
+    <td>{props.transitPackage.shippingMethod}</td>
+    <td>{props.transitPackage.footprint}</td>
+    <td>{props.transitPackage.packageReference}</td>
 
     <td>
       <Link to={"/edit/" + props.transitPackage._id}>Edit</Link>
@@ -28,20 +26,13 @@ export class TransitPackagesList extends Component {
     super(props);
 
     this.state = {
-      role: sessionStorage.getItem('role'),
       transitPackages: [],
     };
   }
 
   componentDidMount() {
-    const headers = {
-      "x-access-token": sessionStorage.getItem("jwtToken"),
-    };
-
     axios
-      .get("http://192.168.0.108:8090/transitPackage/" + this.state.role, {
-        headers: headers,
-      })
+      .get("http://localhost:8090/transit/all")
       .then((response) => {
         this.setState({
           transitPackages: response.data.data,
@@ -54,9 +45,9 @@ export class TransitPackagesList extends Component {
     return this.state.transitPackages.map((currentTransitPackage) => {
       return (
         <TransitPackage
-            transitPackage={currentTransitPackage.Record}
+          transitPackage={currentTransitPackage.Details}
           deleteTransitPackage={this.deleteTransitPackage}
-          key={currentTransitPackage.Key}
+          key={currentTransitPackage.Org}
         />
       );
     });
@@ -69,7 +60,6 @@ export class TransitPackagesList extends Component {
         <table className="table">
           <thead className="thead-light">
             <tr>
-
               <th>DepartureTime</th>
               <th>ArrivalTime</th>
               <th>TypeOfStorage</th>
@@ -79,7 +69,6 @@ export class TransitPackagesList extends Component {
               <th>StorageTime</th>
               <th>ShippingMethod</th>
               <th>Footprint</th>
-              <th>TransporterMat</th>
               <th>PackageReference</th>
             </tr>
           </thead>

@@ -1,3 +1,4 @@
+const auth = require('../middlewares/auth.js');
 const authModel = require('../models/transit.js');
 const apiResponse = require('../utils/apiResponse.js');
 
@@ -19,7 +20,7 @@ exports.createTransit = async (req, res) => {
 
   console.log("1");
 
-  const modelRes = await productModel.createTransit({
+  const modelRes = await authModel.createTransit({
     Identity,
     DepartureTime,
     ArrivalTime,

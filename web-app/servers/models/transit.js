@@ -18,7 +18,7 @@ exports.createTransit = async (information) => {
     PackageReference,
   } = information;
 
-  const networkObj = await network.connect(false, false, true, TransporterMat);
+  const networkObj = await network.connect(false, false, true, "admin");
   const contractRes = await network.invoke(
     networkObj,
     "transitMeat",

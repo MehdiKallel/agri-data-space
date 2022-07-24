@@ -4,26 +4,26 @@ const identity = "admin";
 
 exports.registerMeat = async (information) => {
   const {
-    MeatType,
-    ProcDate,
-    ShellLife,
-    CountryOfOrigin,
-    Footprint,
-    meatMat,
-    FarmerMat,
+     MeatType,
+        ShellLife,
+        ProcDate,
+        FarmerMat,
+        CountryOfOrigin,
+        Footprint,
+        MeatMat,
   } = information;
 
   const networkObj = await network.connect(true, false, false, identity);
   const contractRes = await network.invoke(
     networkObj,
     "registerMeat",
-    MeatType,
-    ProcDate,
-    ShellLife,
-    meatMat,
-    CountryOfOrigin,
-    Footprint,
-    FarmerMat
+      MeatType,
+      ProcDate,
+      ShellLife,
+      MeatMat,
+      CountryOfOrigin,
+      Footprint,
+      FarmerMat
   );
   console.log(contractRes);
   const error = networkObj.error || contractRes.error;
@@ -59,11 +59,10 @@ exports.getMeatById = async (
   return apiResponse.createModelRes(200, "Success", contractRes);
 };
 
-exports.getAllMeatFromFarmer  = async (isFarmer, isAuditor, isTransporter, information)=> {
-    const { farmerMat } = information;
+exports.getAllMeatFromFarmer  = async ()=> {
 
-    const networkObj = await network.connect( isFarmer, isAuditor, isTransporter , farmerMat);
-    const contractRes = await network.invoke(networkObj, 'queryAllMeat', farmerMat);
+    const networkObj = await network.connect( false, false, true , "admin");
+    const contractRes = await network.invoke(networkObj, 'queryMeat');
 
     const error = networkObj.error || contractRes.error;
     if (error) {
