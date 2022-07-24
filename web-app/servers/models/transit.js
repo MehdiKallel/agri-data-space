@@ -42,10 +42,7 @@ exports.createTransit = async (information) => {
   return apiResponse.createModelRes(200, "Success", contractRes);
 };
 
-exports.getAllTransit = async (
- 
-) => {
-  const { userMat } = information;
+exports.getAllTransit = async () => {
 
   const networkObj = await network.connect(
     "false",
@@ -55,7 +52,7 @@ exports.getAllTransit = async (
   );
   const contractRes = await network.invoke(
     networkObj,
-    "queryAllTransit"
+    "queryTransit"
   );
 
   const error = networkObj.error || contractRes.error;

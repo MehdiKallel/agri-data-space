@@ -1,4 +1,4 @@
-const productModel = require('../models/transit.js');
+const authModel = require('../models/transit.js');
 const apiResponse = require('../utils/apiResponse.js');
 
 exports.createTransit = async (req, res) => {
@@ -37,23 +37,7 @@ exports.createTransit = async (req, res) => {
 };
 
 exports.getAllTransit = async (req, res) => {
-    const { id } = req.body;
-    const { role } = req.params;
-    console.log('1');
-
-    if (!id || !role) {
-        return apiResponse.badRequest(res);
-    }
-
     let modelRes;
-    if (role === 'farmer') {
-        modelRes = await productModel.getAllMeatFromFarmer(true, false, false, { id });
-    } else if (role === 'auditor') {
-        modelRes = await productModel.getAllMeatFromFarmer(false, true, false, { id });
-    } else if (role === 'transporter') {
-        modelRes = await productModel.getAllMeatFromFarmer(false, false, true, { id });
-    } else {
-        return apiResponse.badRequest(res);
-    }
+    modelRes = await authModel.getAllTransit(true, false, false);
     return apiResponse.send(res, modelRes);
 };
