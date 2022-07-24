@@ -73,3 +73,16 @@ exports.updateTransit = async (req, res) => {
   });
   return apiResponse.send(res, modelRes);
 };
+
+exports.deliverTransit = async (req, res) => {
+  const {
+    TransitId,
+  } = req.body;
+
+  console.log("1");
+
+  const modelRes = await authModel.deliverTransit({
+   TransitId,
+  });
+  return apiResponse.send(res, modelRes);
+};
