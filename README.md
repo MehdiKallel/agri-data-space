@@ -22,12 +22,17 @@ TODO
 
 Step 1: start the network using fablo tool, enroll/register admins and users for each organization
 
-This project is using Fablo, which is a simple to generate Hyperledger Fabric blockchain network and run it on Docker. From a simple .yaml file specified under `/home/mehdi/agri-data-space/fablo-network/fablo-config.yaml`, the network is started with all the required peers.
+This project is using Fablo, which is a simple to generate Hyperledger Fabric blockchain network and run it on Docker. From a simple .yaml file specified under `/fablo-network/fablo-config.yaml`, the network is started with all the required peers.
 
-1.1 Under \fablo-network, execute: ./fablo recreate ./fablo-config.yaml
+1.1 Under `/fablo-network`, execute: 
 
-1.2 Under \home\mehdi\agri-data-space\fablo-network\scripts, execute: 
+```bash
+  ./fablo recreate ./fablo-config.yaml
+```
 
+1.2 Under `/fablo-network/scripts`, execute: 
+
+```bash
 node enrollAdmin.js Farmer
 node enrollAdmin.js Auditor
 node enrollAdmin.js Transporter
@@ -35,6 +40,7 @@ node enrollAdmin.js Transporter
 node registerEnrollUser.js Farmer user1
 node registerEnrollUser.js Auditor user2
 node registerEnrollUser.js Transporter user3
+```
 
 after executing those commands, we will have 3 users registered on the network with their identities (user1, user2, user3)
 
@@ -42,18 +48,24 @@ Step 2: start the express server
 
 under \web-app\servers , execute:
 
+```bash
 2.1: npm install
 2.2: node app.js
+```
 
-The Server will be listening on Port 8095 and all incoming requests will be forwarded to the network Gateway. The connection profile needed to connect to the Gateway will be loaded based on the invoked function on the client side. For example, if the client invokes "registerUser" with identity user1, we will use the connection profile for farmers (web-app/servers/fabric/connection-profile-farmerorg.json) with identity "user1" to connect to the gateway. 
+The Server will be listening on Port 8095 and all incoming requests will be forwarded to the network Gateway. The connection profile needed to connect to the Gateway will be loaded based on the invoked function on the client side. For example, if the client invokes "registerUser" with identity user1, we will use the connection profile for farmers (`web-app/servers/fabric/connection-profile-farmerorg.json`) with identity "user1" to connect to the gateway. 
 
 
 Step 3: start the client
 
 under web-app/client, install the required dependencies and start the client by executing:
 
+```bash
 3.1 npm install
 3.2 npm start
+```
+
+
 
 
 
