@@ -6,9 +6,10 @@ import axios from "axios";
 const User = (props) => (
   <tr>
     <td>{props.user.name}</td>
+    <td>{props.user.email}</td>
     <td>{props.user.userType}</td>
     <td>{props.user.address}</td>
-    <td>{props.user.password}</td>
+    <td>{props.user.identity}</td>
   </tr>
 );
 
@@ -17,7 +18,6 @@ export class UsersList extends Component {
     super(props);
 
     this.state = {
-      role: "",
       users: [],
     };
   }
@@ -26,7 +26,9 @@ export class UsersList extends Component {
     axios
       .get("http://localhost:8090/user/all")
       .then((response) => {
-        return response.data.data;
+        this.setState({
+          users: response.data.data,
+        });
       })
       .catch((error) => console.log(error));
   }
@@ -35,9 +37,9 @@ export class UsersList extends Component {
     return this.state.users.map((currentUser) => {
       return (
         <User
-          user={currentUser.Record}
+          user={currentUser.Details}
           deleteUser={this.deleteUser}
-          key={currentUser.Key}
+          key={currentUser.Org}
         />
       );
     });
@@ -50,10 +52,11 @@ export class UsersList extends Component {
         <table className="table">
           <thead className="thead-light">
             <tr>
+              <th>name</th>
               <th>email</th>
               <th>userType</th>
               <th>address</th>
-              <th>password</th>
+              <th>identity</th>
             </tr>
           </thead>
           <tbody>{this.usersList()}</tbody>
