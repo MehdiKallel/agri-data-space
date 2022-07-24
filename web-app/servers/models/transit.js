@@ -63,3 +63,35 @@ exports.getAllTransit = async () => {
 
   return apiResponse.createModelRes(200, "Success", contractRes);
 };
+
+
+exports.updateTransit = async () => {
+  const networkObj = await network.connect(
+    "false",
+    "false",
+    "true",
+    "admin"
+  );
+  const contractRes = await network.invoke(
+    networkObj,
+    "updateTransit",
+    DepartureTime,
+    ArrivalTime,
+    DepCoordinates,
+    DestCoordinates,
+    StorageTime,
+    ShippingMethod,
+    Footprint,
+    TransporterMat,
+    PackageReference,
+  );
+
+  const error = networkObj.error || contractRes.error;
+  if (error) {
+    const status = networkObj.status || contractRes.status;
+    return apiResponse.createModelRes(status, error);
+  }
+
+  return apiResponse.createModelRes(200, "Success", contractRes);
+
+}

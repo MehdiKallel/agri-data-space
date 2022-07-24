@@ -42,3 +42,34 @@ exports.getAllTransit = async (req, res) => {
     modelRes = await authModel.getAllTransit(true, false, false);
     return apiResponse.send(res, modelRes);
 };
+
+
+
+exports.updateTransit = async (req, res) => {
+  const {
+    DepartureTime,
+    ArrivalTime,
+    DepCoordinates,
+    DestCoordinates,
+    StorageTime,
+    ShippingMethod,
+    Footprint,
+    TransporterMat,
+    PackageReference,
+  } = req.body;
+
+  console.log("1");
+
+  const modelRes = await authModel.updateTransit({
+   DepartureTime,
+    ArrivalTime,
+    DepCoordinates,
+    DestCoordinates,
+    StorageTime,
+    ShippingMethod,
+    Footprint,
+    TransporterMat,
+    PackageReference,
+  });
+  return apiResponse.send(res, modelRes);
+};

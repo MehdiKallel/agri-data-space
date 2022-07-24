@@ -115,16 +115,16 @@ export class CreateTransitPackage  extends Component {
       TransporterMat: this.state.TransporterMat,
       PackageReference: this.state.PackageReference,
     };
-    console.log(TransitPackage);
 
     axios
-      .post("http://localhost:8090/transit/create", TransitPackage)
+      .post("http://localhost/transit/create", TransitPackage)
       .then((res) => console.log(res));
 
     this.setState({
       user_id: TransitPackage.user_id,
     });
 
+    window.location = "/users";
   }
 
   render() {
@@ -205,7 +205,7 @@ export class CreateTransitPackage  extends Component {
           <div className="form-group">
             <label>StorageTime: </label>
             <input
-              type="text"
+              type="datetime-local"
               required
               className="form-control"
               value={this.state.StorageTime}

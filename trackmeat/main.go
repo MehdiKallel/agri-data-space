@@ -338,6 +338,5 @@ func (s *SimpleChaincode) deliverTransit(stub shim.ChaincodeStubInterface, args 
 	if err2 != nil {
 		return shim.Error("Failed to update transit State")
 	}
-
 	return shim.Success(transitAsBytes)
 }
