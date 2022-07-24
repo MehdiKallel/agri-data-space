@@ -19,6 +19,7 @@ type TransitPackage struct {
 	Footprint        string `json:"footprint"`
 	TransporterMat   string `json:"transporterMat"`
 	PackageReference string `json:"packageReference"`
+	Status string `json:"status"`
 }
 
 type Meat struct {

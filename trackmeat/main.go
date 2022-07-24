@@ -50,6 +50,10 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 		return t.queryTransit(stub)
 	} else if function == "queryMeat" {
 		return t.queryMeat(stub)
+	} else if function == "updateTransit" {
+		return t.updateTransit(stub, args)
+	} else if function == "deliverTransit" {
+		return t.deliverTransit(stub, args)
 	}
 	fmt.Println("invoke did not find func: " + function) //error
 	return shim.Error("Received unknown function invocation")
@@ -239,7 +243,7 @@ func (t *SimpleChaincode) transitMeat(stub shim.ChaincodeStubInterface, args []s
 		return shim.Error(fmt.Sprintf("The meat reference verification failed %s", err))
 	}
 	// ==== Create package object ====
-	transit_package := lib.TransitPackage{TransporterMat: transporterMat, DepartureTime: depTime, ArrivalTime: arTime, TypeOfStorage: typeOfStorage, DepCoordinates: depCoordinates, DestCoordinates: destCoordinates, MeatMat: meatMat, StorageTime: storageTime, ShippingMethod: shippingMethod, Footprint: footprint, PackageReference: packageReference}
+	transit_package := lib.TransitPackage{TransporterMat: transporterMat, DepartureTime: depTime, ArrivalTime: arTime, TypeOfStorage: typeOfStorage, DepCoordinates: depCoordinates, DestCoordinates: destCoordinates, MeatMat: meatMat, StorageTime: storageTime, ShippingMethod: shippingMethod, Footprint: footprint, PackageReference: packageReference, Status: "IN TRANSIT"}
 	objectBytes, errMarshal := json.Marshal(transit_package)
 	if errMarshal != nil {
 		return shim.Error(fmt.Sprintf("Marshal Error in Product: %s", errMarshal))
@@ -253,8 +257,6 @@ func (t *SimpleChaincode) transitMeat(stub shim.ChaincodeStubInterface, args []s
 
 func (t *SimpleChaincode) updateTransit(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
-	transitReference := args[0]
-	
 	lat1, err := strconv.ParseFloat(args[1], 64)
 	if err != nil {
 		return shim.Error("")
@@ -275,7 +277,6 @@ func (t *SimpleChaincode) updateTransit(stub shim.ChaincodeStubInterface, args [
 		return shim.Error("")
 	}
 
-	
 	radlat1 := float64(math.Pi * lat1 / 180)
 	radlat2 := float64(math.Pi * lat2 / 180)
 	
@@ -316,6 +317,27 @@ func (t *SimpleChaincode) updateTransit(stub shim.ChaincodeStubInterface, args [
 	}
 
 	return shim.Success(transitAsBytes)
+}
 
+func (s *SimpleChaincode) deliverTransit(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	
+	key, err := stub.CreateCompositeKey(lib.TransitPackageKey, []string{args[0]})
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	bytes, err := stub.GetState(key)
 
+	transit := lib.TransitPackage{}
+	if err != nil {
+		return shim.Error("Failed to get Transit")
+	}
+	json.Unmarshal(bytes, &transit)
+	transit.Status = "DELIVERED" 
+	transitAsBytes, _:= json.Marshal(transit)
+	err2 := stub.PutState(key, transitAsBytes)
+	if err2 != nil {
+		return shim.Error("Failed to update transit State")
+	}
+
+	return shim.Success(transitAsBytes)
 }
