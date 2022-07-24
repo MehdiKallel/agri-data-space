@@ -149,8 +149,9 @@ exports.invoke = async (networkObj, ...funcAndArgs) => {
       ...funcAndArgsStrings
     );
     console.log(response);
-    console.log(`Transaction ${funcAndArgs} has been submitted: ${response}`);
-
+      console.log(`Transaction ${funcAndArgs} has been submitted: ${response}`);
+      const testing = JSON.parse(response);
+      console.log(testing.Details);
     return JSON.parse(response);
   } catch (err) {
     console.error(`Failed to submit transaction: ${err}`);

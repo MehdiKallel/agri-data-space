@@ -28,36 +28,7 @@ exports.signup = async (isFarmer, isAuditor, isTransporter, information) => {
   return apiResponse.createModelRes(200, "Success", contractRes);
 };
 
-exports.signin = async (isFarmer, isAuditor, isTransporter, information) => {
-  const { id, password } = information;
 
-  const networkObj = await network.connect(
-    isFarmer,
-    isAuditor,
-    isTransporter,
-    id
-  );
-  let contractRes;
-  contractRes = await network.invoke(networkObj, "signIn", id, password);
-  const error = networkObj.error || contractRes.error;
-  if (error) {
-    const status = networkObj.status || contractRes.status;
-    return apiResponse.createModelRes(status, error);
-  }
-  console.log(contractRes);
-  const { Name, UserType } = contractRes;
-  const accessToken = authenticateUtil.generateAccessToken({
-    id,
-    UserType,
-    Name,
-  });
-  return apiResponse.createModelRes(200, "Success", {
-    id,
-    UserType,
-    Name,
-    accessToken,
-  });
-};
 
 exports.getAllUser = async () => {
   const networkObj = await network.connect(false, false, true, "admin");
