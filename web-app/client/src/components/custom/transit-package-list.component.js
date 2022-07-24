@@ -14,6 +14,7 @@ const TransitPackage = (props) => (
     <td>{props.transitPackage.shippingMethod}</td>
     <td>{props.transitPackage.footprint}</td>
     <td>{props.transitPackage.packageReference}</td>
+    <td>{props.transitPackage.status}</td>
 
     <td>
       <Link to={"/edit/" + props.transitPackage._id}>Edit</Link>
@@ -70,6 +71,7 @@ export class TransitPackagesList extends Component {
               <th>ShippingMethod</th>
               <th>Footprint</th>
               <th>PackageReference</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>{this.transitPackagesList()}</tbody>

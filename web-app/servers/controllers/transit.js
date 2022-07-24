@@ -56,33 +56,33 @@ exports.updateTransit = async (req, res) => {
     Footprint,
     TransporterMat,
     PackageReference,
+    DepLat,
+    DepLong,
+    DestLat,
+    DestLong,
   } = req.body;
 
   console.log("1");
 
   const modelRes = await authModel.updateTransit({
-   DepartureTime,
-    ArrivalTime,
-    DepCoordinates,
-    DestCoordinates,
-    StorageTime,
-    ShippingMethod,
-    Footprint,
-    TransporterMat,
-    PackageReference,
+      PackageReference,
+      DepLat,
+      DepLong,
+      DestLat,
+      DestLong,
   });
   return apiResponse.send(res, modelRes);
 };
 
 exports.deliverTransit = async (req, res) => {
   const {
-    TransitId,
+    transitId,
   } = req.body;
 
   console.log("1");
 
   const modelRes = await authModel.deliverTransit({
-   TransitId,
+   transitId,
   });
   return apiResponse.send(res, modelRes);
 };

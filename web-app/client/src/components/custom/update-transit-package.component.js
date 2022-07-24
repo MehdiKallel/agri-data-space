@@ -9,8 +9,10 @@ export class UpdateTransitPackage extends Component {
     this.onChangeDepartureTime = this.onChangeDepartureTime.bind(this);
     this.onChangeArrivalTime = this.onChangeArrivalTime.bind(this);
     this.onChangeTypeOfStorage = this.onChangeTypeOfStorage.bind(this);
-    this.onChangeDepCoordinates = this.onChangeDepCoordinates.bind(this);
-    this.onChangeDestCoordinates = this.onChangeDestCoordinates.bind(this);
+    this.onChangeDepLat = this.onChangeDepLat.bind(this);
+    this.onChangeDepLong = this.onChangeDepLong.bind(this);
+    this.onChangeDestLat = this.onChangeDestLat.bind(this);
+    this.onChangeDestLong = this.onChangeDestLong.bind(this);
     this.onChangeStorageTime = this.onChangeStorageTime.bind(this);
     this.onChangeShippingMethod = this.onChangeShippingMethod.bind(this);
     this.onChangeFootprint = this.onChangeFootprint.bind(this);
@@ -23,33 +25,16 @@ export class UpdateTransitPackage extends Component {
       DepartureTime: "",
       ArrivalTime: "",
       TypeOfStorage: "",
-      DepCoordinates: "",
-      DestCoordinates: "",
+      DepLat: "",
+      DepLong: "",
+      DestLat: "",
+      DestLong: "",
       StorageTime: "",
       ShippingMethod: "",
       Footprint: "",
       TransporterMat: "",
       PackageReference: "",
     };
-  }
-
-  componentDidMount() {
-    axios
-      .post("http://localhost:transit/" + this.props.match.params.id)
-      .then((response) => {
-        this.setState({
-          DepartureTime: response.data.DepartureTime,
-          ArrivalTime: response.data.ArrivalTime,
-          TypeOfStorage: response.data.TypeOfStorage,
-          DepCoordinates: response.data.DepCoordinates,
-          DestCoordinates: response.data.DestCoordinates,
-          StorageTime: response.data.StorageTime,
-          ShippingMethod: response.data.ShippingMethod,
-          Footprint: response.data.Footprint,
-          TransporterMat: response.data.TransporterMat,
-          PackageReference: response.data.PackageReference,
-        });
-      });
   }
 
   onChangeDepartureTime(e) {
@@ -67,16 +52,29 @@ export class UpdateTransitPackage extends Component {
       TypeOfStorage: e.target.value,
     });
   }
-  onChangeDepCoordinates(e) {
+
+  onChangeDepLat(e) {
     this.setState({
-      DepCoordinates: e.target.value,
+      DepLat: e.target.value,
     });
   }
-  onChangeDestCoordinates(e) {
+  onChangeDepLong(e) {
     this.setState({
-      DestCoordinates: e.target.value,
+      DepLong: e.target.value,
     });
   }
+
+  onChangeDestLat(e) {
+    this.setState({
+      DestLat: e.target.value,
+    });
+  }
+  onChangeDestLong(e) {
+    this.setState({
+      DestLong: e.target.value,
+    });
+  }
+
   onChangeMeatMat(e) {
     this.setState({
       MeatMat: e.target.value,
@@ -115,8 +113,10 @@ export class UpdateTransitPackage extends Component {
       DepartureTime: this.state.DepartureTime,
       ArrivalTime: this.state.ArrivalTime,
       TypeOfStorage: this.state.TypeOfStorage,
-      DepCoordinates: this.state.DepCoordinates,
-      DestCoordinates: this.state.DestCoordinates,
+      DepLat: this.state.depLat,
+      DepLong: this.state.depLong,
+      DestLat: this.state.destLat,
+      DestLong: this.state.destLong,
       MeatMat: this.state.MeatMat,
       StorageTime: this.state.StorageTime,
       ShippingMethod: this.state.ShippingMethod,
@@ -170,23 +170,43 @@ export class UpdateTransitPackage extends Component {
             />
           </div>
           <div className="form-group">
-            <label>DepCoordinates: </label>
+            <label>DepLat: </label>
             <input
               type="text"
               required
               className="form-control"
-              value={this.state.DepCoordinates}
-              onChange={this.onChangeDepCoordinates}
+              value={this.state.DepLat}
+              onChange={this.onChangeDepLat}
             />
           </div>
           <div className="form-group">
-            <label>DestCoordinates: </label>
+            <label>DepLong: </label>
             <input
               type="text"
               required
               className="form-control"
-              value={this.state.DestCoordinates}
-              onChange={this.onChangeDestCoordinates}
+              value={this.state.DepLong}
+              onChange={this.onChangeDepLong}
+            />
+          </div>
+          <div className="form-group">
+            <label>DestLat: </label>
+            <input
+              type="text"
+              required
+              className="form-control"
+              value={this.state.DestLat}
+              onChange={this.onChangeDestLat}
+            />
+          </div>
+          <div className="form-group">
+            <label>DestLong: </label>
+            <input
+              type="text"
+              required
+              className="form-control"
+              value={this.state.DestLong}
+              onChange={this.onChangeDestLong}
             />
           </div>
           <div className="form-group">

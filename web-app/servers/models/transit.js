@@ -75,15 +75,11 @@ exports.updateTransit = async () => {
   const contractRes = await network.invoke(
     networkObj,
     "updateTransit",
-    DepartureTime,
-    ArrivalTime,
-    DepCoordinates,
-    DestCoordinates,
-    StorageTime,
-    ShippingMethod,
-    Footprint,
-    TransporterMat,
-    PackageReference,
+     PackageReference,
+      DepLat,
+      DepLong,
+      DestLat,
+      DestLong,
   );
 
   const error = networkObj.error || contractRes.error;
@@ -96,9 +92,8 @@ exports.updateTransit = async () => {
 
 }
 
-
-
-exports.deliverTransit = async () => {
+exports.deliverTransit = async (information) => {
+  const {transitId} = information
   const networkObj = await network.connect(
     "false",
     "false",
@@ -108,7 +103,7 @@ exports.deliverTransit = async () => {
   const contractRes = await network.invoke(
     networkObj,
     "deliverTransit",
-    TransitId,
+    transitId,
   );
 
   const error = networkObj.error || contractRes.error;
