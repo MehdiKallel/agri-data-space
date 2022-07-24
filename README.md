@@ -29,7 +29,7 @@ TODO
 
 ## Step 1: start the network using fablo tool, enroll/register admins and users for each organization
 
-This project is using Fablo, which is a simple to generate Hyperledger Fabric blockchain network and run it on Docker. From a simple .yaml file specified under `/fablo-network/fablo-config.yaml`, the network is started with all the required peers. The number of peers, channel name, and ordering service type can be directly modified in the `fablo-config.yaml`. Please consult the official documentation of [fablo](https://github.com/hyperledger-labs/fablo) if you plan to change the network configuration file.
+This project makes use of Fablo, a simple-to-generate Hyperledger Fabric blockchain network which is run on Docker. From a simple .yaml file specified under `/fablo-network/fablo-config.yaml`, the network is started with all the required peers. The number of peers, channel name, and ordering service type can be directly modified in the `fablo-config.yaml`. Please consult the official documentation of [fablo](https://github.com/hyperledger-labs/fablo) if you plan to change the network configuration file.
 
 **1.1** Under `/fablo-network`, execute: 
 
@@ -54,7 +54,7 @@ node registerEnrollUser.js Auditor user2
 node registerEnrollUser.js Transporter user3
 ```
 
-after executing those commands, we will have 3 users registered on the network with their identities (user1, user2, user3)
+after executing these commands, 3 users will have been registered to the network and tied to identities (user1, user2, user3).
 
 ## Step 2: start the express server
 
