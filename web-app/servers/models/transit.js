@@ -43,23 +43,19 @@ exports.createTransit = async (information) => {
 };
 
 exports.getAllTransit = async (
-  isFarmer,
-  isAuditor,
-  isTransporter,
-  information
+ 
 ) => {
   const { userMat } = information;
 
   const networkObj = await network.connect(
-    isFarmer,
-    isAuditor,
-    isTransporter,
-    farmerMat
+    "false",
+    "false",
+    "true",
+    "admin"
   );
   const contractRes = await network.invoke(
     networkObj,
-    "queryAllTransit",
-    userMat
+    "queryAllTransit"
   );
 
   const error = networkObj.error || contractRes.error;
