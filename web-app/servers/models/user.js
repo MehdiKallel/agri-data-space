@@ -66,8 +66,9 @@ exports.getAllUser = async () => {
 
   const error = networkObj.error || contractRes.error;
   if (error) {
-    const status = networkObj.status || contractRes.status;
-    return apiResponse.createModelRes(status, error);
+      const status = networkObj.status || contractRes.status;
+
+      return apiResponse.createModelRes(status, error);
   }
   return apiResponse.createModelRes(200, "Success", contractRes);
 };

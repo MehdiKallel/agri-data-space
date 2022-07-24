@@ -16,19 +16,25 @@ TODO
 
 
 # Prerequisites
+TODO
 
 
 # Start the Hyperledger fabric network
 
 Step 1: start the network using fablo tool, enroll/register admins and users for each organization
 
-This project is using Fablo, which is a simple to generate Hyperledger Fabric blockchain network and run it on Docker. From a simple .yaml file specified under `/fablo-network/fablo-config.yaml`, the network is started with all the required peers.
+This project is using Fablo, which is a simple to generate Hyperledger Fabric blockchain network and run it on Docker. From a simple .yaml file specified under `/fablo-network/fablo-config.yaml`, the network is started with all the required peers. The number of peers, channel name, and ordering service type can be directly modified in the `fablo-config.yaml`. Please consult the official documentation of [fablo](https://github.com/hyperledger-labs/fablo) if you plan to change the network configuration file.
 
 1.1 Under `/fablo-network`, execute: 
 
 ```bash
   ./fablo recreate ./fablo-config.yaml
 ```
+
+<p align="center">
+    <img src="./docs/network_infrastructure.png" width="600">
+</p>
+
 
 1.2 Under `/fablo-network/scripts`, execute: 
 
@@ -46,7 +52,7 @@ after executing those commands, we will have 3 users registered on the network w
 
 Step 2: start the express server
 
-under \web-app\servers , execute:
+under `\web-app\servers` , execute:
 
 ```bash
 2.1: npm install
