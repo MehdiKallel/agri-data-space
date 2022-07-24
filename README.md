@@ -1,18 +1,18 @@
-# Agriculture data space tracking web app using Hyperledger Fabric
-This project demonstrates the use of the Blockchain technology for tracking meat products. In this application, we have 3 organizations involved, namely auditors, farmers and transporters. Farmers are responsible for registering meat products on the network and providing a CO2 footprint. Auditors have only a read access on the ledger and can see all records related to the meat products. Transporters are responsible of creating packages and transporting meat products to the retailers. 
+# Cross-party emission data tracking for agricultural process chains using Hyperledger Fabric
+This project demonstrates the use of distributed ledger technologies for tracking data stemming from the production of meat products. In this application, we implement different functionalities for 3 organizations , namely auditors, farmers and transporters. Farmers are responsible for registering meat products on the network and providing a CO2 footprint data. Auditors only have read access to the ledger and can see all records related to registered products. Transporters are responsible for creating shipment packages and transporting meat products to retailers. 
 
 # Problem statement: 
-The goal for this project was to create a prototype system through which Agribusinesses (Farmers), Regulators (Auditors) and Logistics providers (Transporters) could interact and share data relevant to product specific Co2 or ghg emissions across a hypothetical meat-product process chain. 
+The goal for this project was to create a prototype system through which agribusinesses (farmers), regulators (auditors) and logistics providers (transporters) could interact and share data relevant to product specific CO2 or ghg emissions across a hypothetical meat-product process chain. 
 
 # Life cycle of transactions 
 
-=> After getting enrolled and registered, Farmers will be able to register their meat products on the web app by providing their identity. In addition to that, farmers need to provide a CO2 footprint value which represents the total greenhouse gas emissions cause by the meat processing.
+=> After getting enrolled and registered, farmers will be able to register their meat products on the web app using their unique identity. In addition to that, farmers need to provide a CO2 footprint value which represents the total greenhouse gas emissions caused by product manufacture and processing.
 
-=> Transporters will be able to create meat packages by providing the meat product id to be transported.
+=> Transporters are  able to create meat packages by providing the product id of the meat that is to be transported.
 
-=> Meat products CO2 footprint will be updated according to the distances traveled. 
+=> Meat product's CO2 footprint will be updated according to the distances traveled. 
 
-=> Auditors will be able to see all the ledger data and will use it for auditing purposes. 
+=> Auditors will be able to see all the ledger data and can use this information for auditing purposes. 
 
 
 # Prerequisites
