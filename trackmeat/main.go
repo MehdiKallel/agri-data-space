@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 
@@ -247,4 +248,74 @@ func (t *SimpleChaincode) transitMeat(stub shim.ChaincodeStubInterface, args []s
 		return shim.Error(fmt.Sprintf("%s", err))
 	}
 	return shim.Success(objectBytes)
+}
+
+
+func (t *SimpleChaincode) updateTransit(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+
+	transitReference := args[0]
+	
+	lat1, err := strconv.ParseFloat(args[1], 64)
+	if err != nil {
+		return shim.Error("")
+	}
+
+	long1, err := strconv.ParseFloat(args[2], 64)
+	if err != nil {
+		return shim.Error("")
+	}
+
+	lat2, err := strconv.ParseFloat(args[3], 64)
+	if err != nil {
+		return shim.Error("")
+	}
+
+	long2, err := strconv.ParseFloat(args[4], 64)
+	if err != nil {
+		return shim.Error("")
+	}
+
+	
+	radlat1 := float64(math.Pi * lat1 / 180)
+	radlat2 := float64(math.Pi * lat2 / 180)
+	
+	theta := float64(long1 - long2)
+	radtheta := float64(math.Pi * theta / 180)
+	
+	dist := math.Sin(radlat1) * math.Sin(radlat2) + math.Cos(radlat1) * math.Cos(radlat2) * math.Cos(radtheta);
+	if dist > 1 {
+		dist = 1
+	}
+	
+	dist = math.Acos(dist)
+	dist = dist * 180 / math.Pi
+	dist = dist * 60 * 1.1515
+	
+	key, err := stub.CreateCompositeKey(lib.TransitPackageKey, []string{args[0]})
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	bytes, err := stub.GetState(key)
+
+	transit := lib.TransitPackage{}
+	if err != nil {
+		return shim.Error("Failed to get Transit")
+	}
+	json.Unmarshal(bytes, &transit)
+	footprint := transit.Footprint
+	tmp, err:= strconv.ParseFloat(footprint,64)
+	if err != nil {
+		return shim.Error("")
+	}
+	transit.Footprint = fmt.Sprintf("%f", tmp+dist)
+	transitAsBytes, _ := json.Marshal(transit)
+	err2 := stub.PutState(key, transitAsBytes)
+
+	if err2 != nil {
+		return shim.Error("Failed to update transit State")
+	}
+
+	return shim.Success(transitAsBytes)
+
+
 }
