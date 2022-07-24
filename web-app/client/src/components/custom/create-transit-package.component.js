@@ -9,10 +9,7 @@ export class CreateTransitPackage  extends Component {
     this.onChangeDepartureTime =this.onChangeDepartureTime.bind(this)
     this.onChangeArrivalTime =this.onChangeArrivalTime.bind(this)
     this.onChangeTypeOfStorage =this.onChangeTypeOfStorage.bind(this)
-    this.onChangeDepLat = this.onChangeDepCoordinates.bind(this);
-    this.onChangeDepLong = this.onChangeDepCoordinates.bind(this);
-    this.onChangeArLat = this.onChangeDepCoordinates.bind(this);
-    this.onChangeArLong = this.onChangeDepCoordinates.bind(this);
+    this.onChangeDepCoordinates = this.onChangeDepCoordinates.bind(this);
     this.onChangeDestCoordinates = this.onChangeDestCoordinates.bind(this);
     this.onChangeMeatMat = this.onChangeMeatMat.bind(this);
     this.onChangeStorageTime = this.onChangeStorageTime.bind(this);
@@ -28,10 +25,8 @@ export class CreateTransitPackage  extends Component {
       DepartureTime: "",
       ArrivalTime: "",
       TypeOfStorage: "",
-      DepLat: "",
-      DepLong: "",
-      DestLat: "",
-      DestLong: "",
+      DepCoordinates: "",
+      DestCoordinates: "",
       MeatMat: "",
       StorageTime: "",
       ShippingMethod: "",
@@ -121,9 +116,23 @@ export class CreateTransitPackage  extends Component {
       PackageReference: this.state.PackageReference,
     };
 
+    const headers = {
+      "x-access-token": sessionStorage.getItem("jwtToken"),
+    };
+
+    console.log(TransitPackage);
+
     axios
-      .post("http://localhost:8090/transit/create", TransitPackage)
+      .post("http://localhost/transit", TransitPackage, {
+        headers: headers,
+      })
       .then((res) => console.log(res));
+
+    this.setState({
+      user_id: TransitPackage.user_id,
+    });
+
+    window.location = "/users";
   }
 
   render() {
@@ -172,43 +181,23 @@ export class CreateTransitPackage  extends Component {
             />
           </div>
           <div className="form-group">
-            <label>DepLat: </label>
+            <label>DepCoordinates: </label>
             <input
               type="text"
               required
               className="form-control"
-              value={this.state.DepLat}
-              onChange={this.onChangeDepLat}
+              value={this.state.DepCoordinates}
+              onChange={this.onChangeDepCoordinates}
             />
           </div>
           <div className="form-group">
-            <label>DepLong: </label>
+            <label>DestCoordinates: </label>
             <input
               type="text"
               required
               className="form-control"
-              value={this.state.DepLong}
-              onChange={this.onChangeDepLong}
-            />
-          </div>
-          <div className="form-group">
-            <label>DesLat: </label>
-            <input
-              type="text"
-              required
-              className="form-control"
-              value={this.state.DesLat}
-              onChange={this.onChangeDesLat}
-            />
-          </div>
-          <div className="form-group">
-            <label>DestLong: </label>
-            <input
-              type="text"
-              required
-              className="form-control"
-              value={this.state.DestLong}
-              onChange={this.onChangeDestLong}
+              value={this.state.DestCoordinates}
+              onChange={this.onChangeDestCoordinates}
             />
           </div>
           <div className="form-group">
@@ -224,7 +213,7 @@ export class CreateTransitPackage  extends Component {
           <div className="form-group">
             <label>StorageTime: </label>
             <input
-              type="text"
+              type="datetime-local"
               required
               className="form-control"
               value={this.state.StorageTime}
