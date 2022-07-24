@@ -55,3 +55,4 @@ chaincodes:
     lang: golang
     channel: agridata
     directory: "../trackmeat"
+    endorsement: AND('FarmerMSP.member', 'AuditorMSP.member', 'TransporterMSP.member')
