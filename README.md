@@ -77,7 +77,17 @@ npm install
 npm start
 ```
 
+# Example user journey
 
+An exemplary usage pattern of the system might look as follows:
+
+**1.** Register a new meat product in the `Register Meat` tab
+
+**2.** Register a new transit package in the `Create Transit Package` tab, using the same 
+`MeatMat` (unique ID) as in the previous step.
+
+**3.** Update the location of the newly created transit package in the `Update Transit Package` tab, again making sure to use the same values for the `TransporterMat` and `MeatMat` fields as
+in the previous steps.
 
 
 
