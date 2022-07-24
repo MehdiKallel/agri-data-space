@@ -19,16 +19,22 @@ TODO
 TODO
 
 
-# Start the Hyperledger fabric network
+# Architecture
 
-Step 1: start the network using fablo tool, enroll/register admins and users for each organization
+<p align="center">
+    <img src="./docs/architecture.png" width="600">
+</p>
+
+# Instructions
+
+## Step 1: start the network using fablo tool, enroll/register admins and users for each organization
 
 This project is using Fablo, which is a simple to generate Hyperledger Fabric blockchain network and run it on Docker. From a simple .yaml file specified under `/fablo-network/fablo-config.yaml`, the network is started with all the required peers. The number of peers, channel name, and ordering service type can be directly modified in the `fablo-config.yaml`. Please consult the official documentation of [fablo](https://github.com/hyperledger-labs/fablo) if you plan to change the network configuration file.
 
-1.1 Under `/fablo-network`, execute: 
+**1.1** Under `/fablo-network`, execute: 
 
 ```bash
-  ./fablo recreate ./fablo-config.yaml
+    ./fablo recreate ./fablo-config.yaml
 ```
 
 <p align="center">
@@ -36,7 +42,7 @@ This project is using Fablo, which is a simple to generate Hyperledger Fabric bl
 </p>
 
 
-1.2 Under `/fablo-network/scripts`, execute: 
+**1.2** Under `/fablo-network/scripts`, execute: 
 
 ```bash
 node enrollAdmin.js Farmer
@@ -50,25 +56,25 @@ node registerEnrollUser.js Transporter user3
 
 after executing those commands, we will have 3 users registered on the network with their identities (user1, user2, user3)
 
-Step 2: start the express server
+## Step 2: start the express server
 
 under `\web-app\servers` , execute:
 
 ```bash
-2.1: npm install
-2.2: node app.js
+npm install
+node app.js
 ```
 
 The Server will be listening on Port 8095 and all incoming requests will be forwarded to the network Gateway. The connection profile needed to connect to the Gateway will be loaded based on the invoked function on the client side. For example, if the client invokes "registerUser" with identity user1, we will use the connection profile for farmers (`web-app/servers/fabric/connection-profile-farmerorg.json`) with identity "user1" to connect to the gateway. 
 
 
-Step 3: start the client
+## Step 3: start the client
 
 under web-app/client, install the required dependencies and start the client by executing:
 
 ```bash
-3.1 npm install
-3.2 npm start
+npm install
+npm start
 ```
 
 
