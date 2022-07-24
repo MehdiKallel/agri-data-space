@@ -26,9 +26,7 @@ export class UsersList extends Component {
     axios
       .get("http://localhost:8090/user/all")
       .then((response) => {
-        this.setState({
-          users: response.data.data,
-        });
+        return response.data.data;
       })
       .catch((error) => console.log(error));
   }
