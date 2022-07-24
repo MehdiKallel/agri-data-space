@@ -65,7 +65,13 @@ exports.getAllTransit = async () => {
 };
 
 
-exports.updateTransit = async () => {
+exports.updateTransit = async (information) => {
+  const {
+    PackageReference,
+    DepLat,
+    DepLong,
+    DestLat,
+    DestLong} = information 
   const networkObj = await network.connect(
     "false",
     "false",

@@ -16,7 +16,7 @@ export class UpdateTransitPackage extends Component {
     this.onChangeStorageTime = this.onChangeStorageTime.bind(this);
     this.onChangeShippingMethod = this.onChangeShippingMethod.bind(this);
     this.onChangeFootprint = this.onChangeFootprint.bind(this);
-    this.onChangeTransporterMat = this.onChangeFootprint.bind(this);
+    this.onChangeTransporterMat = this.onChangeTransporterMat.bind(this);
     this.onChangePackageReference = this.onChangePackageReference.bind(this);
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -128,10 +128,9 @@ export class UpdateTransitPackage extends Component {
     console.log(transitPackage);
 
     axios
-      .post("http://localhost:5000/transit/update", transitPackage)
+      .post("http://localhost:8090/transit/update", transitPackage)
       .then((res) => console.log(res.data));
 
-    window.location = "/ListTransitPackages";
   }
 
   render() {
