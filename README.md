@@ -2,7 +2,7 @@
 This project demonstrates the use of the Blockchain technology for tracking meat products. In this application, we have 3 organizations involved, namely auditors, farmers and transporters. Farmers are responsible for registering meat products on the network and providing a CO2 footprint. Auditors have only a read access on the ledger and can see all records related to the meat products. Transporters are responsible of creating packages and transporting meat products to the retailers. 
 
 # Problem statement: 
-TODO
+The goal for this project was to create a prototype system through which Agribusinesses (Farmers), Regulators (Auditors) and Logistics providers (Transporters) could interact and share data relevant to product specific Co2 or ghg emissions across a hypothetical meat-product process chain. 
 
 # Life cycle of transactions 
 
