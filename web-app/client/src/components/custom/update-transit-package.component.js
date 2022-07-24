@@ -6,6 +6,18 @@ import axios from "axios";
 export class UpdateTransitPackage extends Component {
   constructor(props) {
     super(props);
+    this.onChangeDepartureTime = this.onChangeDepartureTime.bind(this);
+    this.onChangeArrivalTime = this.onChangeArrivalTime.bind(this);
+    this.onChangeTypeOfStorage = this.onChangeTypeOfStorage.bind(this);
+    this.onChangeDepCoordinates = this.onChangeDepCoordinates.bind(this);
+    this.onChangeDestCoordinates = this.onChangeDestCoordinates.bind(this);
+    this.onChangeStorageTime = this.onChangeStorageTime.bind(this);
+    this.onChangeShippingMethod = this.onChangeShippingMethod.bind(this);
+    this.onChangeFootprint = this.onChangeFootprint.bind(this);
+    this.onChangeTransporterMat = this.onChangeFootprint.bind(this);
+    this.onChangePackageReference = this.onChangePackageReference.bind(this);
+
+    this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       DepartureTime: "",
@@ -23,7 +35,7 @@ export class UpdateTransitPackage extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:transitPackage/" + this.props.match.params.id)
+      .post("http://localhost:transit/" + this.props.match.params.id)
       .then((response) => {
         this.setState({
           DepartureTime: response.data.DepartureTime,
@@ -180,7 +192,7 @@ export class UpdateTransitPackage extends Component {
           <div className="form-group">
             <label>StorageTime: </label>
             <input
-              type="datetime-local"
+              type="text"
               required
               className="form-control"
               value={this.state.StorageTime}
