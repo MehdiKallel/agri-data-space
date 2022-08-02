@@ -16,7 +16,19 @@ The goal for this project was to create a prototype system through which agribus
 
 
 # Prerequisites
-TODO
+In `/fablo-network` run the following commands to setup fablo:
+
+```bash
+    curl -Lf https://github.com/hyperledger-labs/fablo/releases/download/1.0.2/fablo.sh -o ./fablo && chmod +x ./fablo
+    ./fablo prune
+    ./fablo recreate ./fablo-config.y
+```
+In case you modify `fablo-config.yaml` to add Organizations, peers, channels or change the endorsement policy, please run the following command again:
+
+```bash
+    ./fablo recreate ./fablo-config.y
+```
+
 
 
 # Architecture
