@@ -25,7 +25,7 @@
     "peer0.farmer.example.com": {
       "url": "grpcs://localhost:7041",
       "tlsCACerts": {
-        "path": "/home/mehdi/agriculture-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer0.farmer.example.com/tls/ca.crt"
+        "path": "../../../fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer0.farmer.example.com/tls/ca.crt"
       },
       "grpcOptions": {
         "ssl-target-name-override": "peer0.farmer.example.com"
@@ -34,7 +34,7 @@
     "peer1.farmer.example.com": {
       "url": "grpcs://localhost:7042",
       "tlsCACerts": {
-        "path": "/home/mehdi/agriculture-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer1.farmer.example.com/tls/ca.crt"
+        "path": "../../../fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/farmer.example.com/peers/peer1.farmer.example.com/tls/ca.crt"
       },
       "grpcOptions": {
         "ssl-target-name-override": "peer1.farmer.example.com"
@@ -43,7 +43,7 @@
     "peer0.auditor.example.com": {
       "url": "grpcs://localhost:7061",
       "tlsCACerts": {
-        "path": "/home/mehdi/agriculture-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer0.auditor.example.com/tls/ca.crt"
+        "path": "../../../fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer0.auditor.example.com/tls/ca.crt"
       },
       "grpcOptions": {
         "ssl-target-name-override": "peer0.auditor.example.com"
@@ -52,7 +52,7 @@
     "peer1.auditor.example.com": {
       "url": "grpcs://localhost:7062",
       "tlsCACerts": {
-        "path": "/home/mehdi/agriculture-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer1.auditor.example.com/tls/ca.crt"
+        "path": "../../../fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/auditor.example.com/peers/peer1.auditor.example.com/tls/ca.crt"
       },
       "grpcOptions": {
         "ssl-target-name-override": "peer1.auditor.example.com"
@@ -61,7 +61,7 @@
     "peer0.transporter.example.com": {
       "url": "grpcs://localhost:7081",
       "tlsCACerts": {
-        "path": "/home/mehdi/agriculture-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer0.transporter.example.com/tls/ca.crt"
+        "path": "../../../fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer0.transporter.example.com/tls/ca.crt"
       },
       "grpcOptions": {
         "ssl-target-name-override": "peer0.transporter.example.com"
@@ -70,7 +70,7 @@
     "peer1.transporter.example.com": {
       "url": "grpcs://localhost:7082",
       "tlsCACerts": {
-        "path": "/home/mehdi/agriculture-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer1.transporter.example.com/tls/ca.crt"
+        "path": "../../../fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/transporter.example.com/peers/peer1.transporter.example.com/tls/ca.crt"
       },
       "grpcOptions": {
         "ssl-target-name-override": "peer1.transporter.example.com"
@@ -82,7 +82,7 @@
       "url": "http://localhost:7020",
       "caName": "ca.orderer.example.com",
       "tlsCACerts": {
-        "path": "/home/mehdi/agriculture-space/fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/orderer.example.com/ca/ca.orderer.example.com-cert.pem"
+        "path": "../../../fablo-network/fablo-target/fabric-config/crypto-config/peerOrganizations/orderer.example.com/ca/ca.orderer.example.com-cert.pem"
       },
       "httpOptions": {
         "verify": false
